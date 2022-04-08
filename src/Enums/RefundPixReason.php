@@ -14,7 +14,7 @@ enum RefundPixReason: string
     {
         return [
             self::Fraud,
-            self::NotAccepted
+            self::NotAccepted,
         ];
     }
 }

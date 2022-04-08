@@ -1,19 +1,16 @@
 <?php
 
-
 namespace Idez\Bankly\Structs;
-
 
 use Idez\Bankly\Struct;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DictKey extends Struct
 {
+    use HasFactory;
     public string $endToEndId;
     public ValueType $addressingKey;
     public DictHolder $holder;
-
-    use HasFactory;
 
     public function __construct($data = [])
     {

@@ -2,11 +2,9 @@
 
 namespace Idez\Bankly\Clients;
 
-use GuzzleHttp\Promise\PromiseInterface;
 use Idez\Bankly\AccountType;
 use Idez\Bankly\Bankly;
 use Idez\Bankly\Exceptions\BanklyDictKeyNotFoundException;
-use Idez\Bankly\Exceptions\BanklyMissingAccountDataException;
 use Idez\Bankly\Exceptions\BanklyPixFailedException;
 use Idez\Bankly\InitializationType;
 use Idez\Bankly\RefundPixReason;
@@ -15,7 +13,6 @@ use Idez\Bankly\Structs\DictKey;
 use Idez\Bankly\Structs\PixTransfer;
 use Idez\Bankly\Structs\Refund;
 use Illuminate\Http\Client\RequestException;
-use Illuminate\Support\Facades\Cache;
 
 class PixClient extends BanklyClient
 {
@@ -31,8 +28,7 @@ class PixClient extends BanklyClient
         string $locationCity,
         string $locationZip,
         bool   $singlePayment = false
-    ): object
-    {
+    ): object {
         return $this->client()->post("/pix/qrcodes", [
             'addressingKey' => [
                 'type' => $keyType,
@@ -52,7 +48,7 @@ class PixClient extends BanklyClient
     /**
      * @throws BanklyPixFailedException
      */
-    public function executePix(Account $from, Account|DictKey $to, float $amount, string $description = '', AccountType $type = AccountType::Checking ): PixTransfer
+    public function executePix(Account $from, Account|DictKey $to, float $amount, string $description = '', AccountType $type = AccountType::Checking): PixTransfer
     {
         $data = [
             'amount' => $amount,
@@ -61,7 +57,7 @@ class PixClient extends BanklyClient
                 'account' => [
                     'branch' => $from->branch,
                     'number' => $from->number,
-                    'type' => $type
+                    'type' => $type,
                 ],
                 'bank' => [
                     'ispb' => Bankly::ACESSO_ISPB,
@@ -114,8 +110,7 @@ class PixClient extends BanklyClient
         string  $authenticationCode,
         float   $amount,
         RefundPixReason  $refundCode = RefundPixReason::NotAccepted
-    ): Refund
-    {
+    ): Refund {
         $response = $this->client()->post('/baas/pix/cash-out:refund', [
             'account' => [
                 'branch' => $from->branch,
@@ -142,6 +137,7 @@ class PixClient extends BanklyClient
         if ($request->failed()) {
             throw new BanklyDictKeyNotFoundException("Key {$key} not found in DICT.");
         }
+
         return new DictKey($request->json());
     }
 

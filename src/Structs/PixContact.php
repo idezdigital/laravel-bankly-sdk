@@ -7,14 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PixContact extends Struct
 {
+    use HasFactory;
     public ?string $name;
     public string $documentType;
     public string $documentNumber;
 
     public Account $account;
     public Bank $bank;
-
-    use HasFactory;
 
     public function __construct($data = [])
     {

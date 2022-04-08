@@ -9,5 +9,4 @@ enum PixKeyType: string
     case Email = 'EMAIL';
     case Phone = 'PHONE';
     case EVP = 'EVP';
-
 }

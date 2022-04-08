@@ -2,9 +2,7 @@
 
 namespace App\Models\Bankly\Webhook;
 
-use App\Bankly;
 use App\Models\Bankly\Account;
-use App\Models\Bankly\Bank;
 use App\Models\Bankly\ValueType;
 use App\Models\Struct;
 
@@ -17,7 +15,6 @@ class Recipient extends Struct
     public string $type;
     public string $name;
     public Account $account;
-
 
     public function __construct($data = [])
     {

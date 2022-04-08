@@ -17,7 +17,7 @@ class BanklyServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-bankly-sdk')
-            ->hasConfigFile()
+            ->hasConfigFile('bankly')
             ->hasViews()
             ->hasMigration('create_laravel-bankly-sdk_table')
             ->hasCommand(BanklyCommand::class);

@@ -7,7 +7,6 @@ use Spatie\LaravelData\Support\DataProperty;
 
 class EnumCast implements Cast
 {
-
     public function __construct(
         protected ?string $type = null
     ) {

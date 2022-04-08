@@ -2,9 +2,9 @@
 
 namespace Idez\Bankly;
 
+use Idez\Bankly\Commands\BanklyCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Idez\Bankly\Commands\BanklyCommand;
 
 class BanklyServiceProvider extends PackageServiceProvider
 {

@@ -37,5 +37,4 @@ class TransferClient extends BanklyClient
 
         return new P2P($response);
     }
-
 }

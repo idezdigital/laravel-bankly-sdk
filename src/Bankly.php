@@ -12,20 +12,23 @@ class Bankly
     public const ACESSO_COMPE = '332';
     public const ACESSO_NAME = 'Acesso Soluções de Pagamentos S.A';
 
-    public function account() {
+    public function account()
+    {
         return app(AccountClient::class);
     }
 
-    public function bankSlip() {
+    public function bankSlip()
+    {
         return app(BankSlipClient::class);
     }
 
-    public function pix() {
+    public function pix()
+    {
         return app(PixClient::class);
     }
 
-    public function transfer() {
+    public function transfer()
+    {
         return app(TransferClient::class);
     }
-
 }

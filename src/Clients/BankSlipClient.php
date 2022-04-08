@@ -4,9 +4,7 @@ namespace Idez\Bankly\Clients;
 
 use Carbon\Carbon;
 use Idez\Bankly\BankslipType;
-use Idez\Bankly\Exceptions\BanklyMissingAccountDataException;
 use Idez\Bankly\Structs\Account;
-use Idez\Bankly\Structs\Payer;
 
 class BankSlipClient extends BanklyClient
 {
@@ -19,7 +17,7 @@ class BankSlipClient extends BanklyClient
      * @return object
      * @throws \Illuminate\Http\Client\RequestException
      */
-    public function createBankslip(float $amount, Carbon $dueDate, Account $account, BankslipType $type = BankslipType::Invoice, string|null $document = null ): object
+    public function createBankslip(float $amount, Carbon $dueDate, Account $account, BankslipType $type = BankslipType::Invoice, string|null $document = null): object
     {
         return $this->client()->post('/bankslip', [
             'account' => [
@@ -29,7 +27,7 @@ class BankSlipClient extends BanklyClient
             'documentNumber' => $document ?? $account->document,
             'amount' => $amount,
             'dueDate' => $dueDate->format('d/m/Y'),
-            'type' => $type
+            'type' => $type,
         ])->throw()->object();
     }
 
@@ -40,7 +38,7 @@ class BankSlipClient extends BanklyClient
      * @return object
      * @throws \Illuminate\Http\Client\RequestException
      */
-    public function getBankslip(string $accountBranch, string $accountNumber,string $authorizationCode): object
+    public function getBankslip(string $accountBranch, string $accountNumber, string $authorizationCode): object
     {
         return $this->client()->get("/bankslip/branch/{$accountBranch}/number/{$accountNumber}/{$authorizationCode}")
             ->throw()->object();

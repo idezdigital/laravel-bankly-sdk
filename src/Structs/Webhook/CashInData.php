@@ -15,7 +15,7 @@ class CashInData extends Struct
 
     public function __construct($data = [])
     {
-        if(isset($data['addressingKey'])){
+        if (isset($data['addressingKey'])) {
             $data['addressingKey'] = new ValueType($data['addressingKey']);
         }
 

@@ -6,7 +6,6 @@ use Psr\Http\Message\ResponseInterface;
 
 abstract class Struct implements \JsonSerializable
 {
-
     /**
      * Private internal struct attributes
      */
@@ -21,6 +20,7 @@ abstract class Struct implements \JsonSerializable
         foreach ($data as $key => $val) {
             if (property_exists(static::class, $key)) {
                 $this->$key = $val;
+
                 continue;
             }
 
@@ -63,7 +63,7 @@ abstract class Struct implements \JsonSerializable
     /**
      * Check if a key is set
      * @param string $key
-     * @return boolean
+     * @return bool
      */
     public function __isset(string $key)
     {

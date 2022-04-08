@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Idez\Bankly\Structs;
-
 
 use Idez\Bankly\Struct;
 
@@ -17,8 +15,8 @@ class PixTransfer extends Struct
 
     public function __construct($data = [])
     {
-        $data['sender'] = $data['sender'] instanceof PixContact ? $data['sender']: new PixContact($data['sender']);
-        $data['recipient'] = $data['recipient'] instanceof PixContact ? $data['recipient']: new PixContact($data['recipient']);
+        $data['sender'] = $data['sender'] instanceof PixContact ? $data['sender'] : new PixContact($data['sender']);
+        $data['recipient'] = $data['recipient'] instanceof PixContact ? $data['recipient'] : new PixContact($data['recipient']);
 
         parent::__construct($data);
     }

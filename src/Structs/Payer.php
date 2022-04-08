@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Idez\Bankly\Structs;
-
 
 use App\Models\Struct;
 

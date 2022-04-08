@@ -3,13 +3,11 @@
 namespace Idez\Bankly\Clients;
 
 use Carbon\Carbon;
-use Idez\Bankly\Exceptions\BanklyMissingAccountDataException;
 use Idez\Bankly\Structs\Account;
 use Idez\Bankly\Structs\AccountInfo;
 
 class AccountClient extends BanklyClient
 {
-
     public function getEvents(Account $account, ?Carbon $from = null, ?Carbon $to = null, int $page = 1, int $pageSize = 100, bool $includeDetails = true): object
     {
         $data = [

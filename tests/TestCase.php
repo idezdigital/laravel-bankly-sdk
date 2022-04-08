@@ -2,9 +2,9 @@
 
 namespace Idez\Bankly\Tests;
 
+use Idez\Bankly\BanklyServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Idez\Bankly\BanklyServiceProvider;
 
 class TestCase extends Orchestra
 {

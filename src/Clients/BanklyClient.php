@@ -3,7 +3,6 @@
 namespace Idez\Bankly\Clients;
 
 use Idez\Bankly\Exceptions\BanklyAuthenticationException;
-use Idez\Bankly\Exceptions\BanklyMissingAccountDataException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
@@ -32,8 +31,7 @@ abstract class BanklyClient
         protected null|string $secret = '',
         protected null|string $scopes = null,
         protected null|string $env = self::ENV_STAGING
-    )
-    {
+    ) {
         $this->authentication();
     }
 
@@ -47,7 +45,6 @@ abstract class BanklyClient
         $cachedToken = $this->getCachedToken();
 
         if (blank($cachedToken) && filled($this->client) && filled($this->secret)) {
-
             $formRequest = [
                 'grant_type' => 'client_credentials',
                 'client_id' => $this->client,

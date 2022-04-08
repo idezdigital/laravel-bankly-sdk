@@ -7,7 +7,6 @@ use Idez\Bankly\Exceptions\BanklyRegistrationException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 
 abstract class BanklyClient
@@ -99,7 +98,6 @@ abstract class BanklyClient
      */
     public function register($certificate, $privateKey)
     {
-
         $register = Http::baseUrl('https://auth-mtls.' . $this->getUrl())
             ->retry(self::RETRY_COUNT, self::RETRY_INTERVAL)
             ->withOptions([
@@ -120,7 +118,5 @@ abstract class BanklyClient
         }
 
         $registerObject = $register->object();
-
-
     }
 }

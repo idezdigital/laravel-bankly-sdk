@@ -1,6 +1,6 @@
 <?php
 
-namespace Idez\Bankly\Commands;
+namespace Idez\Bankly\Enums\Commands;
 
 use Illuminate\Console\Command;
 

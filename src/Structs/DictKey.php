@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Enums\Structs;
 
-use Idez\Bankly\Struct;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DictKey extends Struct

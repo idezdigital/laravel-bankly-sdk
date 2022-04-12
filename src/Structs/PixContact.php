@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Structs;
 
-use Idez\Bankly\Struct;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PixContact extends Struct

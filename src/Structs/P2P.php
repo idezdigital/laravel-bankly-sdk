@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Enums\Structs;
 
-use Idez\Bankly\Struct;
+
 
 class P2P extends Struct
 {

@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly;
 
-use Idez\Bankly\Commands\BanklyCommand;
+use Idez\Bankly\Enums\Commands\BanklyCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 

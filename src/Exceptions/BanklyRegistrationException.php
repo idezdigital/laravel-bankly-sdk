@@ -1,6 +1,6 @@
 <?php
 
-namespace Idez\Bankly\Exceptions;
+namespace Idez\Bankly\Enums\Exceptions;
 
 class BanklyRegistrationException extends BanklyException
 {

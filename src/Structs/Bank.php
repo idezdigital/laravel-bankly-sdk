@@ -3,7 +3,6 @@
 namespace Idez\Bankly\Structs;
 
 use Idez\Bankly\Bankly;
-use Idez\Bankly\Struct;
 
 /**
  * Class CashInWebhook

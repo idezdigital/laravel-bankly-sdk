@@ -1,9 +1,9 @@
 <?php
 
-namespace Idez\Bankly\Clients;
+namespace Idez\Bankly\Enums\Clients;
 
-use Idez\Bankly\Exceptions\BanklyAuthenticationException;
-use Idez\Bankly\Exceptions\BanklyRegistrationException;
+use Idez\Bankly\Enums\Exceptions\BanklyAuthenticationException;
+use Idez\Bankly\Enums\Exceptions\BanklyRegistrationException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
@@ -94,7 +94,7 @@ abstract class BanklyClient
     }
 
     /**
-     * @throws \Idez\Bankly\Exceptions\BanklyRegistrationException
+     * @throws BanklyRegistrationException
      */
     public function register($certificate, $privateKey)
     {

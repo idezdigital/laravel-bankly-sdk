@@ -1,11 +1,11 @@
 <?php
 
-namespace Idez\Bankly\Facades;
+namespace Idez\Bankly\Enums\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Idez\Bankly\Bankly
+ * @see \Idez\Bankly\Enums\Bankly
  */
 class Bankly extends Facade
 {

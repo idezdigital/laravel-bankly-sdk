@@ -1,6 +1,6 @@
 <?php
 
-namespace Idez\Bankly\Database\Factories;
+namespace Idez\Bankly\Enums\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

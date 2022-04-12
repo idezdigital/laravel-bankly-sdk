@@ -2,8 +2,6 @@
 
 namespace Idez\Bankly\Structs;
 
-use Idez\Bankly\Struct;
-
 /**
  * Class CashInWebhook
  * @package App\Models\Bankly

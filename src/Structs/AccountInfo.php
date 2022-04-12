@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Structs;
 
-use Idez\Bankly\Struct;
+
 
 class AccountInfo extends Struct
 {

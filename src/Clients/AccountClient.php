@@ -1,10 +1,11 @@
 <?php
 
-namespace Idez\Bankly\Clients;
+namespace Idez\Bankly\Enums\Clients;
 
 use Carbon\Carbon;
 use Idez\Bankly\Structs\Account;
 use Idez\Bankly\Structs\AccountInfo;
+use Illuminate\Http\Client\RequestException;
 
 class AccountClient extends BanklyClient
 {
@@ -33,7 +34,7 @@ class AccountClient extends BanklyClient
     }
 
     /**
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     public function getAccountData(string $accountNumber): AccountInfo
     {
@@ -45,7 +46,7 @@ class AccountClient extends BanklyClient
     }
 
     /**
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
      */
     public function getAccountBalance(string $accountNumber): float
     {

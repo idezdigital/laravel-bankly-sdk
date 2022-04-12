@@ -1,6 +1,6 @@
 <?php
 
-namespace Idez\Bankly;
+namespace Idez\Bankly\Enums;
 
 enum AccountType: string
 {

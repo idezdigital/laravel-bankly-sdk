@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\Bankly\Webhook;
+namespace Idez\Bankly\Structs\Webhooks;
 
-use App\Models\Struct;
+use Idez\Bankly\Structs\Struct;
 
 class Amount extends Struct
 {

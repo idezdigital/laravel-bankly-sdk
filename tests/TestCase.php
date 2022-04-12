@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Tests;
+namespace Idez\Bankly\Enums\Tests;
 
-use Idez\Bankly\BanklyServiceProvider;
+use Idez\Bankly\Enums\BanklyServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 

@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Structs;
 
-use App\Models\Struct;
+use Idez\Bankly\Structs\Address;
 
 class Payer extends Struct
 {

@@ -2,7 +2,6 @@
 
 namespace Idez\Bankly\Enums\Structs;
 
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DictKey extends Struct

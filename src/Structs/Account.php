@@ -4,7 +4,6 @@ namespace Idez\Bankly\Structs;
 
 use Idez\Bankly\Enums\AccountType;
 
-
 class Account extends Struct
 {
     public string $branch;

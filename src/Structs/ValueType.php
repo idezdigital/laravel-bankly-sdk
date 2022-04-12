@@ -2,8 +2,6 @@
 
 namespace Idez\Bankly\Structs;
 
-
-
 class ValueType extends Struct
 {
     public string $value;

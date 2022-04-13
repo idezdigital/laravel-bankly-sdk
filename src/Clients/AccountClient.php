@@ -1,6 +1,6 @@
 <?php
 
-namespace Idez\Bankly\Enums\Clients;
+namespace Idez\Bankly\Clients;
 
 use Carbon\Carbon;
 use Idez\Bankly\Structs\Account;

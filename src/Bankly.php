@@ -2,10 +2,10 @@
 
 namespace Idez\Bankly;
 
-use Idez\Bankly\Enums\Clients\AccountClient;
-use Idez\Bankly\Enums\Clients\BankSlipClient;
-use Idez\Bankly\Enums\Clients\PixClient;
-use Idez\Bankly\Enums\Clients\TransferClient;
+use Idez\Bankly\Clients\AccountClient;
+use Idez\Bankly\Clients\BankSlipClient;
+use Idez\Bankly\Clients\PixClient;
+use Idez\Bankly\Clients\TransferClient;
 
 class Bankly
 {

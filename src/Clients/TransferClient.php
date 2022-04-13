@@ -1,9 +1,9 @@
 <?php
 
-namespace Idez\Bankly\Enums\Clients;
+namespace Idez\Bankly\Clients;
 
-use Idez\Bankly\Enums\AccountType;
-use Idez\Bankly\Enums\Bankly;
+use Idez\Bankly\AccountType;
+use Idez\Bankly\Bankly;
 use Idez\Bankly\Structs\Account;
 use Idez\Bankly\Structs\P2P;
 

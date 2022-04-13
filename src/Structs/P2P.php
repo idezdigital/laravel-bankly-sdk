@@ -1,6 +1,6 @@
 <?php
 
-namespace Idez\Bankly\Enums\Structs;
+namespace Idez\Bankly\Structs;
 
 
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Idez\Bankly\Enums\Clients;
+namespace Idez\Bankly\Clients;
 
 use Carbon\Carbon;
-use Idez\Bankly\Enums\BankslipType;
+use Idez\Bankly\BankslipType;
 use Idez\Bankly\Structs\Account;
 
 class BankSlipClient extends BanklyClient

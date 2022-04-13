@@ -2,8 +2,7 @@
 
 namespace Idez\Bankly\Structs;
 
-use Idez\Bankly\Enums\AccountType;
-
+use Idez\Bankly\AccountType;
 
 class Account extends Struct
 {

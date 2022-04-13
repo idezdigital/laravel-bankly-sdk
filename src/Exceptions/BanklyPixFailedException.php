@@ -1,6 +1,6 @@
 <?php
 
-namespace Idez\Bankly\Enums\Exceptions;
+namespace Idez\Bankly\Exceptions;
 
 class BanklyPixFailedException extends BanklyException
 {

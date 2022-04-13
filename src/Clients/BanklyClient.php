@@ -1,9 +1,9 @@
 <?php
 
-namespace Idez\Bankly\Enums\Clients;
+namespace Idez\Bankly\Clients;
 
-use Idez\Bankly\Enums\Exceptions\BanklyAuthenticationException;
-use Idez\Bankly\Enums\Exceptions\BanklyRegistrationException;
+use Idez\Bankly\Exceptions\BanklyAuthenticationException;
+use Idez\Bankly\Exceptions\BanklyRegistrationException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;

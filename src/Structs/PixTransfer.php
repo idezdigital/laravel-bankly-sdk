@@ -2,8 +2,6 @@
 
 namespace Idez\Bankly\Structs;
 
-
-
 class PixTransfer extends Struct
 {
     public float $amount;

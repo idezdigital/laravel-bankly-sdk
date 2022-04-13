@@ -2,8 +2,6 @@
 
 namespace Idez\Bankly\Structs;
 
-
-
 class Address extends Struct
 {
     public string $addressLine;

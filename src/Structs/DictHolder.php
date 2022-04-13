@@ -2,8 +2,6 @@
 
 namespace Idez\Bankly\Structs;
 
-
-
 class DictHolder extends Struct
 {
     public string $name;

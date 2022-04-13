@@ -2,8 +2,6 @@
 
 namespace Idez\Bankly\Structs;
 
-use Idez\Bankly\Structs\Address;
-
 class Payer extends Struct
 {
     public string $document;

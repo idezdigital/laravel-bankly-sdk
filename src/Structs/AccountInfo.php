@@ -2,8 +2,6 @@
 
 namespace Idez\Bankly\Structs;
 
-
-
 class AccountInfo extends Struct
 {
     public string $status;

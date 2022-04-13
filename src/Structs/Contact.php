@@ -2,8 +2,6 @@
 
 namespace Idez\Bankly\Structs;
 
-
-
 class Contact extends Struct
 {
     public ?string $document;

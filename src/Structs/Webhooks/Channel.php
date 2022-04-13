@@ -2,8 +2,6 @@
 
 namespace Idez\Bankly\Structs\Webhooks;
 
-use Idez\Bankly\Structs\ValueType;
-
 class Channel extends Struct
 {
     public string $name;

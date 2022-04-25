@@ -2,12 +2,12 @@
 
 namespace Idez\Bankly\Clients;
 
-use Idez\Bankly\Enums\AccountType;
 use Idez\Bankly\Bankly;
-use Idez\Bankly\Exceptions\BanklyDictKeyNotFoundException;
-use Idez\Bankly\Exceptions\BanklyPixFailedException;
+use Idez\Bankly\Enums\AccountType;
 use Idez\Bankly\Enums\InitializationType;
 use Idez\Bankly\Enums\RefundPixReason;
+use Idez\Bankly\Exceptions\BanklyDictKeyNotFoundException;
+use Idez\Bankly\Exceptions\BanklyPixFailedException;
 use Idez\Bankly\Structs\Account;
 use Idez\Bankly\Structs\DictKey;
 use Idez\Bankly\Structs\PixTransfer;

@@ -44,7 +44,7 @@ class BankSlipClient extends BanklyClient
      */
     public function getBankslip(string $accountBranch, string $accountNumber, string $authorizationCode): object
     {
-        $response =  $this->client()->get("/bankslip/branch/{$accountBranch}/number/{$accountNumber}/{$authorizationCode}")
+        $response = $this->client()->get("/bankslip/branch/{$accountBranch}/number/{$accountNumber}/{$authorizationCode}")
             ->throw()->json();
 
         return new Bankslip($response);

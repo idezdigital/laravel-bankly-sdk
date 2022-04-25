@@ -3,7 +3,6 @@
 namespace Idez\Bankly\Clients;
 
 use Idez\Bankly\Exceptions\BanklyAuthenticationException;
-use Idez\Bankly\Exceptions\BanklyRegistrationException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
@@ -39,7 +38,6 @@ abstract class BanklyClient
         protected null|string $client = null,
         protected null|string $secret = null,
         protected array|Collection|null|string $scopes = null,
-
     ) {
         $this->client ??= config('bankly.client');
         $this->secret ??= config('bankly.secret');
@@ -106,5 +104,4 @@ abstract class BanklyClient
     {
         return Cache::get(self::TOKEN_KEY);
     }
-
 }

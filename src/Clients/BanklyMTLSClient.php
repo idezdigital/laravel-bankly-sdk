@@ -37,8 +37,7 @@ abstract class BanklyMTLSClient
         private string|null $password = null,
         array|string|Collection|null $scopes = null,
         array|Collection $middlewares = []
-    )
-    {
+    ) {
         $this->certificatePath ??= config('bankly.mTls.certificate_path');
         $this->privatePath ??= config('bankly.mTls.private_key_path');
         $this->password ??= config('bankly.mTls.password');
@@ -86,7 +85,6 @@ abstract class BanklyMTLSClient
             ->withHeaders(['api-version' => self::API_VERSION]);
     }
 
-
     /**
      * @return string access token
      * @throws BanklyAuthenticationException
@@ -107,7 +105,7 @@ abstract class BanklyMTLSClient
                 ->post('/oauth2/token', [
                     'client_id' => config('bankly.oauth2.client_id'),
                     'grant_type' => 'client_credentials',
-                    'scope' => $this->scopes
+                    'scope' => $this->scopes,
                 ]);
 
             if ($auth->failed()) {
@@ -123,7 +121,6 @@ abstract class BanklyMTLSClient
 
         return $cachedToken;
     }
-
 
     #[ArrayShape(['cert' => "array", 'ssl_key' => "array"])]
     private function getCerts(): array
@@ -141,12 +138,14 @@ abstract class BanklyMTLSClient
     public function withMiddleware(callable ...$middleware): self
     {
         $this->middlewares->push($middleware);
+
         return $this;
     }
 
     public function setScopes(array|string|Collection|null $scopes): self
     {
         $this->scopes = $this->normalizeScopes($scopes);
+
         return $this;
     }
 

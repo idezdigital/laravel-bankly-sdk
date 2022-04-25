@@ -3,8 +3,8 @@
 namespace Idez\Bankly\Clients;
 
 use Idez\Bankly\Exceptions\BanklyAuthenticationException;
-use Idez\Bankly\Rules\FileExistsRule;
 use Idez\Bankly\Resources\Token;
+use Idez\Bankly\Rules\FileExistsRule;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Collection;

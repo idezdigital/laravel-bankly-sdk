@@ -13,8 +13,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use JetBrains\PhpStorm\ArrayShape;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 
 abstract class BanklyMTLSClient
 {
@@ -65,12 +63,12 @@ abstract class BanklyMTLSClient
                     ->letters()
                     ->mixedCase()
                     ->numbers()
-                    ->symbols()
+                    ->symbols(),
                 ],
             ]
         )->validate();
 
-        if(is_null($this->certificatePath) || is_null($this->privatePath) || is_null($this->passphrase)) {
+        if (is_null($this->certificatePath) || is_null($this->privatePath) || is_null($this->passphrase)) {
             throw new BanklyAuthenticationException('Certificate, private key and password are required.');
         }
 
@@ -89,7 +87,7 @@ abstract class BanklyMTLSClient
     {
         $cachedToken = $this->getCachedToken();
 
-        $pendingRequest =  Http::baseUrl('https://api.' . $this->getEnvUrl())
+        $pendingRequest = Http::baseUrl('https://api.' . $this->getEnvUrl())
             ->withToken($cachedToken)
             ->retry(self::RETRY_COUNT, self::RETRY_INTERVAL)
             ->withHeaders(['api-version' => self::API_VERSION]);
@@ -110,7 +108,7 @@ abstract class BanklyMTLSClient
         $cachedToken = $this->getCachedToken();
 
         if (blank($cachedToken)) {
-            $request  = Http::baseUrl("https://auth-mtls.{$this->baseUrl}")
+            $request = Http::baseUrl("https://auth-mtls.{$this->baseUrl}")
                 ->withHeaders(['api-version' => self::API_VERSION])
                 ->withOptions($this->getCerts());
 
@@ -159,6 +157,7 @@ abstract class BanklyMTLSClient
     public function setScopes(array|string|Collection|null $scopes): self
     {
         $this->scopes = $this->normalizeScopes($scopes);
+
         return $this;
     }
 

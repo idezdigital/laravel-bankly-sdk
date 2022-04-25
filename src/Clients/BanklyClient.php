@@ -94,6 +94,7 @@ abstract class BanklyClient
         }
 
         $this->token = $cachedToken;
+
         return $authObject ?? new Token(['access_token' => $cachedToken]);
     }
 

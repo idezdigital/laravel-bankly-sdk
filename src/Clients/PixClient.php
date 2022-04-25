@@ -97,6 +97,7 @@ class PixClient extends BanklyMTLSClient
         }
 
         $request = $this->client()->post('/pix/cash-out', $data)->throw();
+
         return new Transfer($request->json());
     }
 

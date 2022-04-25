@@ -21,7 +21,6 @@ it('should throws if client_id AND secret_id null', function () {
 })->throws(BanklyAuthenticationException::class, 'Client or secret not set');
 
 it('should can authenticate with bankly and saved token in cache', function () {
-
     Http::fake(
         ['https://login.sandbox.bankly.com.br/connect/token' => Http::response(
             [
@@ -42,7 +41,6 @@ it('should can authenticate with bankly and saved token in cache', function () {
 
 
 it('should throw exception on try authenticate with bankly request not successfully', function () {
-
     Http::fake(
         ['https://login.sandbox.bankly.com.br/connect/token' => Http::response(
             [

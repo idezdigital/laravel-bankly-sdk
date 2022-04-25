@@ -2,7 +2,6 @@
 
 use Idez\Bankly\Tests\TestCase;
 
-
 uses(TestCase::class)
     ->beforeEach(function () {
         Storage::fake();
@@ -15,7 +14,6 @@ uses(TestCase::class)
             'bankly.mTls.passphrase' => $this->passphrase,
             'bankly.env' => 'testing',
             'bankly.client' => 'test',
-            'bankly.secret' => 'test'
+            'bankly.secret' => 'test',
         ]);
     })->in(__DIR__);
-

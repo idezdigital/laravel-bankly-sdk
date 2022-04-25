@@ -3,21 +3,24 @@
 namespace Idez\Bankly\Clients;
 
 use Carbon\Carbon;
-use Idez\Bankly\BankslipType;
+use Exception;
+use Idez\Bankly\Enums\BankslipType;
 use Idez\Bankly\Structs\Account;
+use Idez\Bankly\Structs\Bankslip;
+use Illuminate\Http\Client\RequestException;
 
 class BankSlipClient extends BanklyClient
 {
     /**
      * @param float $amount
      * @param Carbon $dueDate
-     * @param \Idez\Bankly\Structs\Account $account
+     * @param Account $account
      * @param BankslipType $type
      * @param string|null $document
-     * @return object
-     * @throws \Illuminate\Http\Client\RequestException
+     * @return Bankslip
+     * @throws RequestException
      */
-    public function createBankslip(float $amount, Carbon $dueDate, Account $account, BankslipType $type = BankslipType::Invoice, string|null $document = null): object
+    public function createBankslip(float $amount, Carbon $dueDate, Account $account, BankslipType $type = BankslipType::Invoice, string|null $document = null): Bankslip
     {
         return $this->client()->post('/bankslip', [
             'account' => [
@@ -28,7 +31,7 @@ class BankSlipClient extends BanklyClient
             'amount' => $amount,
             'dueDate' => $dueDate->format('d/m/Y'),
             'type' => $type,
-        ])->throw()->object();
+        ])->throw()->json();
     }
 
     /**
@@ -36,12 +39,15 @@ class BankSlipClient extends BanklyClient
      * @param string $accountNumber
      * @param string $authorizationCode
      * @return object
-     * @throws \Illuminate\Http\Client\RequestException
+     * @throws RequestException
+     * @throws Exception
      */
     public function getBankslip(string $accountBranch, string $accountNumber, string $authorizationCode): object
     {
-        return $this->client()->get("/bankslip/branch/{$accountBranch}/number/{$accountNumber}/{$authorizationCode}")
-            ->throw()->object();
+        $response =  $this->client()->get("/bankslip/branch/{$accountBranch}/number/{$accountNumber}/{$authorizationCode}")
+            ->throw()->json();
+
+        return new Bankslip($response);
     }
 
     public function printBankslip(string $authorizationCode): \Illuminate\Http\Client\Response

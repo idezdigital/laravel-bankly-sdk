@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Clients;
 
-use Idez\Bankly\AccountType;
+use Idez\Bankly\Enums\AccountType;
 use Idez\Bankly\Bankly;
 use Idez\Bankly\Structs\Account;
 use Idez\Bankly\Structs\P2P;
@@ -33,7 +33,7 @@ class TransferClient extends BanklyClient
                 'document' => $to->document,
                 'type' => $type->value,
             ],
-        ])->throw()->object();
+        ])->throw()->json();
 
         return new P2P($response);
     }

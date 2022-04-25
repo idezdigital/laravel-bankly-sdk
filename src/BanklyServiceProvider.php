@@ -2,7 +2,6 @@
 
 namespace Idez\Bankly;
 
-use Idez\Bankly\Commands\BanklyCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -17,9 +16,6 @@ class BanklyServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-bankly-sdk')
-            ->hasConfigFile('bankly')
-            ->hasViews()
-            ->hasMigration('create_laravel-bankly-sdk_table')
-            ->hasCommand(BanklyCommand::class);
+            ->hasConfigFile('bankly');
     }
 }

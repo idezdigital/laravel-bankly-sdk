@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs\Webhooks;
+namespace Idez\Bankly\Resources\Webhooks;
 
-use Idez\Bankly\Structs\ValueType;
+use Idez\Bankly\Resources\ValueType;
 
 class CashInData extends Struct
 {

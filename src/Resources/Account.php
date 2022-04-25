@@ -1,10 +1,10 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
 use Idez\Bankly\Enums\AccountType;
 
-class Account extends Struct
+class Account extends Resource
 {
     public string $branch = '0001';
     public string $number;

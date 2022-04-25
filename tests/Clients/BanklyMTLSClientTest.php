@@ -227,7 +227,7 @@ it('should returns token object on Authentication', function () {
     $client = new class () extends BanklyMTLSClient {};
     Cache::set('bankly-token', null);
     $url = $client->authentication();
-    expect($url)->toBeInstanceOf(\Idez\Bankly\Structs\Token::class)->access_token->toBe('token');
+    expect($url)->toBeInstanceOf(\Idez\Bankly\Resources\Token::class)->access_token->toBe('token');
 });
 
 it('should returns token object on Authentication if cache filled', function () {
@@ -247,7 +247,7 @@ it('should returns token object on Authentication if cache filled', function () 
     $client = new class () extends BanklyMTLSClient {};
     Cache::set('bankly-token', 'teste');
     $url = $client->authentication();
-    expect($url)->toBeInstanceOf(\Idez\Bankly\Structs\Token::class)
+    expect($url)->toBeInstanceOf(\Idez\Bankly\Resources\Token::class)
         ->access_token
         ->toBe('teste')
         ->expires_in

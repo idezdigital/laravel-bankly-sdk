@@ -1,6 +1,6 @@
 <?php
 
-namespace Idez\Bankly\Structs\Webhooks;
+namespace Idez\Bankly\Resources\Webhooks;
 
 class Channel extends Struct
 {

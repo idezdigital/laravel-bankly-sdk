@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
-class Holder extends Struct
+class Holder extends Resource
 {
     public string $type;
     public string $documentNumber;

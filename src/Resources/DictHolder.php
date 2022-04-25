@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
-class DictHolder extends Struct
+class DictHolder extends Resource
 {
     public string $name;
     public string $type;

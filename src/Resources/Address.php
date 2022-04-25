@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
-class Address extends Struct
+class Address extends Resource
 {
     public string $addressLine;
     public string $city;

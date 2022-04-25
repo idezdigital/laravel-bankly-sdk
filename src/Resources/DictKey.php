@@ -1,10 +1,10 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class DictKey extends Struct
+class DictKey extends Resource
 {
     use HasFactory;
     public string $endToEndId;

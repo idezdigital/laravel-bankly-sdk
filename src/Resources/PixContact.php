@@ -1,10 +1,10 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PixContact extends Struct
+class PixContact extends Resource
 {
     use HasFactory;
     public ?string $name;

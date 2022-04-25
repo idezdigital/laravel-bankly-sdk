@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
-class PixTransfer extends Struct
+class PixTransfer extends Resource
 {
     public float $amount;
     public string $description;

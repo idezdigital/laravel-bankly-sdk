@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
-class Token extends Struct
+class Token extends Resource
 {
     public string $token_type = 'bearer';
     public string $access_token;

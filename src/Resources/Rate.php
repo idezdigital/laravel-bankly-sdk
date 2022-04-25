@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
-class Rate extends Struct
+class Rate extends Resource
 {
     public \DateTime $startDate;
     public string $type;

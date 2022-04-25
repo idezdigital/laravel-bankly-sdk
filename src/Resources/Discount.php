@@ -1,12 +1,12 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
 use DateTime;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 
-class Discount extends Struct
+class Discount extends Resource
 {
     public DateTime $limitDate;
     public string $type;

@@ -8,13 +8,13 @@ use Idez\Bankly\Enums\InitializationType;
 use Idez\Bankly\Enums\RefundPixReason;
 use Idez\Bankly\Exceptions\BanklyDictKeyNotFoundException;
 use Idez\Bankly\Exceptions\BanklyPixFailedException;
-use Idez\Bankly\Structs\Account;
-use Idez\Bankly\Structs\DictKey;
-use Idez\Bankly\Structs\PixTransfer;
-use Idez\Bankly\Structs\Refund;
+use Idez\Bankly\Resources\Account;
+use Idez\Bankly\Resources\DictKey;
+use Idez\Bankly\Resources\PixTransfer;
+use Idez\Bankly\Resources\Refund;
 use Illuminate\Http\Client\RequestException;
 
-class PixClient extends BanklyClient
+class PixClient extends BanklyMTLSClient
 {
     /**
      * @throws RequestException

@@ -4,8 +4,8 @@ namespace Idez\Bankly\Clients;
 
 use Idez\Bankly\Bankly;
 use Idez\Bankly\Enums\AccountType;
-use Idez\Bankly\Structs\Account;
-use Idez\Bankly\Structs\P2P;
+use Idez\Bankly\Resources\Account;
+use Idez\Bankly\Resources\P2P;
 
 class TransferClient extends BanklyClient
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
 use DateTime;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 
-class Payment extends Struct
+class Payment extends Resource
 {
     public string $id;
     public float $amount;

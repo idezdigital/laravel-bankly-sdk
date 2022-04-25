@@ -1,13 +1,13 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
 use DateTime;
 use Exception;
-use Idez\Bankly\Structs\Webhooks\Amount;
+use Idez\Bankly\Resources\Webhooks\Amount;
 use Psr\Http\Message\ResponseInterface;
 
-class Bankslip extends Struct
+class Bankslip extends Resource
 {
     public string $authenticationCode;
     public DateTime $updatedAt;

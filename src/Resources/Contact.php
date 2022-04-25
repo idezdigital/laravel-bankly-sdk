@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
-class Contact extends Struct
+class Contact extends Resource
 {
     public ?string $document;
 

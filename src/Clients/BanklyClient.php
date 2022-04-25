@@ -3,7 +3,7 @@
 namespace Idez\Bankly\Clients;
 
 use Idez\Bankly\Exceptions\BanklyAuthenticationException;
-use Idez\Bankly\Structs\Token;
+use Idez\Bankly\Resources\Token;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;

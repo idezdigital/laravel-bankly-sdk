@@ -1,10 +1,10 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
 use Psr\Http\Message\ResponseInterface;
 
-class Person extends Struct
+class Person extends Resource
 {
     public string $document;
     public string $name;

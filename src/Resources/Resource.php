@@ -1,10 +1,10 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
 use Psr\Http\Message\ResponseInterface;
 
-abstract class Struct implements \JsonSerializable
+abstract class Resource implements \JsonSerializable
 {
     /**
      * Private internal struct attributes

@@ -1,8 +1,8 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
-class AccountInfo extends Struct
+class AccountInfo extends Resource
 {
     public string $status;
     public string $branch;

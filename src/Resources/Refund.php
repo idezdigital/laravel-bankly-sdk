@@ -1,10 +1,10 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Refund extends Struct
+class Refund extends Resource
 {
     use HasFactory;
 

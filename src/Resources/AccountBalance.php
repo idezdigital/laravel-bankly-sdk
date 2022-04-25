@@ -1,6 +1,6 @@
 <?php
 
-namespace Idez\Bankly\Structs;
+namespace Idez\Bankly\Resources;
 
 /**
  * Class CashInWebhook
@@ -8,7 +8,7 @@ namespace Idez\Bankly\Structs;
  * @property string $Ispb
  * @property string $Name
  */
-class AccountBalance extends Struct
+class AccountBalance extends Resource
 {
     public string $amount;
     public string $currency;

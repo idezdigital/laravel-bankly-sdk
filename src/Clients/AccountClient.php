@@ -3,8 +3,8 @@
 namespace Idez\Bankly\Clients;
 
 use Carbon\Carbon;
-use Idez\Bankly\Structs\Account;
-use Idez\Bankly\Structs\AccountInfo;
+use Idez\Bankly\Resources\Account;
+use Idez\Bankly\Resources\AccountInfo;
 use Illuminate\Http\Client\RequestException;
 
 class AccountClient extends BanklyClient

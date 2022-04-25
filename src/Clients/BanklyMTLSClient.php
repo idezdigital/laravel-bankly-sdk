@@ -3,9 +3,12 @@
 namespace Idez\Bankly\Clients;
 
 use Idez\Bankly\Exceptions\BanklyAuthenticationException;
-use Idez\Bankly\Exceptions\BanklyRegistrationException;
+use Idez\Bankly\Rules\FileExistsRule;
+use Idez\Bankly\Structs\Token;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -22,7 +25,7 @@ abstract class BanklyMTLSClient
     protected const ENV_PRODUCTION = 'production';
 
     public const API_VERSION = '1.0';
-    protected const CACHE_KEY = 'bankly_mTls_client';
+    protected const TOKEN_KEY = 'bankly-token';
 
     protected const RETRY_COUNT = 3;
     protected const RETRY_INTERVAL = 500;
@@ -31,103 +34,114 @@ abstract class BanklyMTLSClient
     protected Collection $middlewares;
     protected string $scopes;
 
+    /**
+     * @throws RequestException
+     * @throws BanklyAuthenticationException
+     */
     public function __construct(
-        private string|null $certificatePath = null,
-        private string|null $privatePath = null,
-        private string|null $password = null,
+        private string|null          $certificatePath = null,
+        private string|null          $privatePath = null,
+        private string|null          $passphrase = null,
         array|string|Collection|null $scopes = null,
-        array|Collection $middlewares = []
+        array|Collection             $middlewares = []
     ) {
         $this->certificatePath ??= config('bankly.mTls.certificate_path');
         $this->privatePath ??= config('bankly.mTls.private_key_path');
-        $this->password ??= config('bankly.mTls.password');
+        $this->passphrase ??= config('bankly.mTls.passphrase');
         $this->scopes = $this->normalizeScopes($scopes ?? config('bankly.default_scopes'));
         $this->middlewares = collect($middlewares);
-        $this->baseUrl = $this->getUrl();
+        $this->baseUrl = $this->getEnvUrl();
 
         Validator::make(
             [
-                'certificate' => $certificatePath,
-                'private' => $privatePath,
-                'password' => $password,
+                'certificate' => $this->certificatePath,
+                'private' => $this->privatePath,
+                'passphrase' => $this->passphrase,
             ],
             [
-                'certificate' => 'required|file',
-                'private' => 'required|file',
-                'password' => [Password::min(64)
+                'certificate' => ['required', new FileExistsRule()],
+                'private' => ['required', new FileExistsRule()],
+                'passphrase' => [Password::min(64)
                     ->letters()
                     ->mixedCase()
                     ->numbers()
                     ->symbols()
-                    ->uncompromised(),
                 ],
             ]
         )->validate();
+
+        if(is_null($this->certificatePath) || is_null($this->privatePath) || is_null($this->passphrase)) {
+            throw new BanklyAuthenticationException('Certificate, private key and password are required.');
+        }
+
+        $this->authentication();
     }
 
-    public function getUrl(): string
+    public function getEnvUrl(): string
     {
         return config('bankly.env') === self::ENV_PRODUCTION ? self::BASE_URL_PROD : self::BASE_URL_SANDBOX;
     }
 
     /**
      * @return PendingRequest
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     protected function client(): PendingRequest
     {
-        $cachedToken = cache()->get(self::CACHE_KEY);
+        $cachedToken = $this->getCachedToken();
 
-        return Http::baseUrl('https://api.' . $this->getUrl())
+        $pendingRequest =  Http::baseUrl('https://api.' . $this->getEnvUrl())
             ->withToken($cachedToken)
             ->retry(self::RETRY_COUNT, self::RETRY_INTERVAL)
             ->withHeaders(['api-version' => self::API_VERSION]);
+
+        foreach ($this->middlewares as $middleware) {
+            $pendingRequest->withMiddleware($middleware);
+        }
+
+        return $pendingRequest;
     }
 
     /**
-     * @return string access token
-     * @throws BanklyAuthenticationException
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @return Token access token
+     * @throws RequestException
      */
-    public function authentication(): string
+    public function authentication(): Token
     {
-        $cachedToken = cache()->get(self::CACHE_KEY);
+        $cachedToken = $this->getCachedToken();
 
         if (blank($cachedToken)) {
-            $auth = Http::baseUrl("https://auth-mtls.{$this->baseUrl}")
-                ->pushHandlers($this->middlewares)
+            $request  = Http::baseUrl("https://auth-mtls.{$this->baseUrl}")
                 ->withHeaders(['api-version' => self::API_VERSION])
-                ->withOptions($this->getCerts())
+                ->withOptions($this->getCerts());
+
+            foreach ($this->middlewares as $middleware) {
+                $request->withMiddleware($middleware);
+            }
+
+            $auth = $request
                 ->retry(self::RETRY_COUNT, self::RETRY_INTERVAL)
                 ->asForm()
                 ->post('/oauth2/token', [
                     'client_id' => config('bankly.oauth2.client_id'),
                     'grant_type' => 'client_credentials',
                     'scope' => $this->scopes,
-                ]);
+                ])
+                ->throw();
 
-            if ($auth->failed()) {
-                throw new BanklyAuthenticationException("Unable to authenticate at Bankly.");
-            }
-
-            $authObject = $auth->object();
+            $authObject = new Token($auth->json());
             $cachedToken = $authObject->access_token;
-
-            cache()->put(self::CACHE_KEY, $cachedToken, $authObject->expires_in * 0.8);
+            cache()->put(self::TOKEN_KEY, $cachedToken, $authObject->expires_in * 0.8);
         }
 
-
-        return $cachedToken;
+        return $authObject ?? new Token(['access_token' => $cachedToken]);
     }
 
     #[ArrayShape(['cert' => "array", 'ssl_key' => "array"])]
     private function getCerts(): array
     {
         return [
-            'cert' => [$this->certificatePath, $this->password],
-            'ssl_key' => [$this->privatePath, $this->password],
+            'cert' => [$this->certificatePath, $this->passphrase],
+            'ssl_key' => [$this->privatePath, $this->passphrase],
         ];
     }
 
@@ -145,8 +159,17 @@ abstract class BanklyMTLSClient
     public function setScopes(array|string|Collection|null $scopes): self
     {
         $this->scopes = $this->normalizeScopes($scopes);
-
         return $this;
+    }
+
+    public function getCachedToken(): ?string
+    {
+        return Cache::get(self::TOKEN_KEY);
+    }
+
+    public function getScopes(): string
+    {
+        return $this->scopes;
     }
 
     public function normalizeScopes(array|string|Collection $scopes): string
@@ -156,30 +179,5 @@ abstract class BanklyMTLSClient
         }
 
         return collect($scopes)->implode(' ');
-    }
-
-    /**
-     * @throws BanklyRegistrationException
-     */
-    public function register(): object
-    {
-        $register = Http::baseUrl('https://auth-mtls.' . $this->baseUrl)
-            ->retry(self::RETRY_COUNT, self::RETRY_INTERVAL)
-            ->withOptions($this->getCerts())
-//            ->pushHandlers($this->middlewares)
-            ->post('/oauth2/register', [
-                "grant_types" => ["client_credentials"],
-                "tls_client_auth_subject_dn" => config('bankly.oauth2.subject_dn'),
-                "token_endpoint_auth_method" => "tls_client_auth",
-                "response_types" => ["access_token"],
-                "company_key" => config('bankly.company_key'),
-                "scope" => $this->scopes,
-            ]);
-
-        if ($register->failed()) {
-            throw new BanklyRegistrationException("Unable to authenticate at Bankly.");
-        }
-
-        return $register->object();
     }
 }

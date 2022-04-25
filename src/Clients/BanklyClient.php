@@ -3,7 +3,9 @@
 namespace Idez\Bankly\Clients;
 
 use Idez\Bankly\Exceptions\BanklyAuthenticationException;
+use Idez\Bankly\Structs\Token;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -63,15 +65,14 @@ abstract class BanklyClient
     }
 
     /**
-     * @return void
-     * @throws BanklyAuthenticationException
-     * @throws \Illuminate\Http\Client\RequestException
+     * @return Token
+     * @throws RequestException
      */
-    public function authentication(): void
+    public function authentication(): Token
     {
         $cachedToken = $this->getCachedToken();
 
-        if (blank($cachedToken) && filled($this->client) && filled($this->secret)) {
+        if (blank($cachedToken)) {
             $formRequest = [
                 'grant_type' => 'client_credentials',
                 'client_id' => $this->client,
@@ -86,13 +87,14 @@ abstract class BanklyClient
                 ->post('/connect/token', $formRequest)
                 ->throw();
 
-            $authObject = $auth->object();
+            $authObject = new Token($auth->json());
             $cachedToken = $authObject->access_token;
 
             Cache::put(self::TOKEN_KEY, $cachedToken, $authObject->expires_in * 0.8);
         }
 
         $this->token = $cachedToken;
+        return $authObject ?? new Token(['access_token' => $cachedToken]);
     }
 
     public function getEnvUrl(): string

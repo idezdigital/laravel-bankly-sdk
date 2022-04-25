@@ -6,13 +6,17 @@ use Idez\Bankly\Exceptions\BanklyAuthenticationException;
 use Idez\Bankly\Exceptions\BanklyRegistrationException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
+/**
+ * @deprecated
+ */
 abstract class BanklyClient
 {
     protected const BASE_URL_PROD = 'bankly.com.br';
-    protected const BASE_URL_STAGING = 'sandbox.bankly.com.br';
+    protected const BASE_URL_SANDBOX = 'sandbox.bankly.com.br';
 
     protected const ENV_STAGING = 'staging';
     protected const EVN_PRODUCTION = 'production';
@@ -26,12 +30,26 @@ abstract class BanklyClient
     protected string $baseURL;
     protected string $token;
 
+    protected null|string $env;
+
+    /**
+     * @throws BanklyAuthenticationException
+     */
     public function __construct(
-        protected null|string $client = '',
-        protected null|string $secret = '',
-        protected null|string $scopes = null,
-        protected null|string $env = self::ENV_STAGING
+        protected null|string $client = null,
+        protected null|string $secret = null,
+        protected array|Collection|null|string $scopes = null,
+
     ) {
+        $this->client ??= config('bankly.client');
+        $this->secret ??= config('bankly.secret');
+        $this->scopes ??= config('bankly.default_scopes');
+        $this->env = config('bankly.env');
+
+        if (is_null($this->client) || is_null($this->secret)) {
+            throw new BanklyAuthenticationException('Client or secret not set');
+        }
+
         $this->authentication();
     }
 
@@ -40,7 +58,7 @@ abstract class BanklyClient
      */
     protected function client(): PendingRequest
     {
-        return Http::baseUrl('https://api.' . $this->getUrl())
+        return Http::baseUrl('https://api.' . $this->getEnvUrl())
             ->withToken($this->token)
             ->retry(self::RETRY_COUNT, self::RETRY_INTERVAL)
             ->withHeaders(['api-version' => self::API_VERSION]);
@@ -49,7 +67,7 @@ abstract class BanklyClient
     /**
      * @return void
      * @throws BanklyAuthenticationException
-     * @deprecated
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function authentication(): void
     {
@@ -63,16 +81,12 @@ abstract class BanklyClient
                 'scope' => $this->scopes ?? config('bankly.default_scopes'),
             ];
 
-
             /** @var Response $auth */
-            $auth = Http::baseUrl('https://login.' . $this->getUrl())
+            $auth = Http::baseUrl('https://login.' . $this->getEnvUrl())
                 ->asForm()
                 ->retry(self::RETRY_COUNT, self::RETRY_INTERVAL)
-                ->post('/connect/token', $formRequest);
-
-            if ($auth->failed()) {
-                throw new BanklyAuthenticationException("Unable to authenticate at Bankly.");
-            }
+                ->post('/connect/token', $formRequest)
+                ->throw();
 
             $authObject = $auth->object();
             $cachedToken = $authObject->access_token;
@@ -83,9 +97,9 @@ abstract class BanklyClient
         $this->token = $cachedToken;
     }
 
-    public function getUrl(): string
+    public function getEnvUrl(): string
     {
-        return $this->baseURL = $this->env === self::ENV_STAGING ? self::BASE_URL_STAGING : self::BASE_URL_PROD;
+        return $this->baseURL = $this->env === self::EVN_PRODUCTION ? self::BASE_URL_PROD : self::BASE_URL_SANDBOX;
     }
 
     public function getCachedToken(): ?string
@@ -93,30 +107,4 @@ abstract class BanklyClient
         return Cache::get(self::TOKEN_KEY);
     }
 
-    /**
-     * @throws BanklyRegistrationException
-     */
-    public function register($certificate, $privateKey)
-    {
-        $register = Http::baseUrl('https://auth-mtls.' . $this->getUrl())
-            ->retry(self::RETRY_COUNT, self::RETRY_INTERVAL)
-            ->withOptions([
-                'cert' => [$certificate, config('bankly.oauth2.password')],
-                'ssl_key' => [$privateKey, config('bankly.oauth2.password')],
-            ])
-            ->post('/oauth2/register', [
-                "grant_types" => ["client_credentials"],
-                "tls_client_auth_subject_dn" => config('bankly.oauth2.subject_dn'),
-                "token_endpoint_auth_method" => "tls_client_auth",
-                "response_types" => ["access_token"],
-                "company_key" => config('bankly.company_key'),
-                "scope" => $this->scopes ?? config('bankly.default_scopes'),
-            ]);
-
-        if ($register->failed()) {
-            throw new BanklyRegistrationException("Unable to authenticate at Bankly.");
-        }
-
-        $registerObject = $register->object();
-    }
 }

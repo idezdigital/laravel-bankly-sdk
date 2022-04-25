@@ -1,7 +1,6 @@
 <?php
 
 use Idez\Bankly\Clients\BanklyMTLSClient;
-use Idez\Bankly\Exceptions\BanklyAuthenticationException;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Cache;
 
@@ -180,7 +179,7 @@ it('should returns env url if production', function () {
     expect($url)->toBe('bankly.com.br');
 });
 
-it('should send the correct information in the authentication request', function (){
+it('should send the correct information in the authentication request', function () {
     Http::fake(
         ['https://auth-mtls.sandbox.bankly.com.br/oauth2/token' => Http::response(
             [
@@ -206,9 +205,8 @@ it('should send the correct information in the authentication request', function
             && blank(array_diff([
                 'client_id' => 'client_id',
                 'grant_type' => 'client_credentials',
-                'scope' => 'scope1 scope2'
+                'scope' => 'scope1 scope2',
             ], $request->data()));
-
     });
 });
 
@@ -272,9 +270,9 @@ it('can push middleware on client', function () {
     $client = new class () extends BanklyMTLSClient {};
     $client->withMiddleware(function ($request, $next) {
         $request->headers->set('teste', 'teste');
+
         return $next($request);
     });
 
     $this->expectNotToPerformAssertions();
 });
-

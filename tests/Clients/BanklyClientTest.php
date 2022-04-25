@@ -166,7 +166,7 @@ it('should returns token object on Authentication if cache filled', function () 
         ->toBeNull();
 });
 
-it('should send the correct information in the authentication request', function (){
+it('should send the correct information in the authentication request', function () {
     config(['bankly.env' => 'production', 'bankly.client' => 'test', 'bankly.secret' => 'test', 'bankly.default_scopes' => 'scope1 scope2']);
     Http::fake(
         ['https://login.bankly.com.br/connect/token' => Http::response(
@@ -189,8 +189,7 @@ it('should send the correct information in the authentication request', function
                 'grant_type' => 'client_credentials',
                 'client_id' => 'test',
                 'client_secret' => 'test',
-                'scope' => 'scope1 scope2'
+                'scope' => 'scope1 scope2',
             ], $request->data()));
-
     });
 });

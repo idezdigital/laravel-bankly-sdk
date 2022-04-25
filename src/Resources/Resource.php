@@ -2,10 +2,13 @@
 
 namespace Idez\Bankly\Resources;
 
+use Idez\Bankly\Traits\Makeable;
 use Psr\Http\Message\ResponseInterface;
 
 abstract class Resource implements \JsonSerializable
 {
+    use Makeable;
+
     /**
      * Private internal struct attributes
      */

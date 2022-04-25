@@ -1,7 +1,10 @@
 <?php
 
-namespace Idez\Bankly\Resources;
+namespace Idez\Bankly\Resources\Pix;
 
+use Idez\Bankly\Resources\DictHolder;
+use Idez\Bankly\Resources\Resource;
+use Idez\Bankly\Resources\ValueType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DictKey extends Resource

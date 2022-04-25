@@ -2,6 +2,7 @@
 
 namespace Idez\Bankly\Resources;
 
+use Idez\Bankly\Resources\Pix\Contact;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Refund extends Resource
@@ -13,13 +14,13 @@ class Refund extends Resource
     public ?string $description;
     public string $correlationId;
     public string $status;
-    public PixContact $sender;
-    public PixContact $recipient;
+    public Contact $sender;
+    public Contact $recipient;
 
     public function __construct($data = [])
     {
-        $data['sender'] = new PixContact($data['sender']);
-        $data['recipient'] = new PixContact($data['recipient']);
+        $data['sender'] = new Contact($data['sender']);
+        $data['recipient'] = new Contact($data['recipient']);
 
         parent::__construct($data);
     }

@@ -21,7 +21,6 @@ it('should throws if client_id AND secret_id null', function () {
 })->throws(BanklyAuthenticationException::class, 'Client or secret not set');
 
 it('should can authenticate with bankly and saved token in cache', function () {
-    config(['bankly.client' => 'test', 'bankly.secret' => 'test']);
 
     Http::fake(
         ['https://login.sandbox.bankly.com.br/connect/token' => Http::response(
@@ -43,7 +42,6 @@ it('should can authenticate with bankly and saved token in cache', function () {
 
 
 it('should throw exception on try authenticate with bankly request not successfully', function () {
-    config(['bankly.client' => 'test', 'bankly.secret' => 'test']);
 
     Http::fake(
         ['https://login.sandbox.bankly.com.br/connect/token' => Http::response(
@@ -63,7 +61,6 @@ it('should throw exception on try authenticate with bankly request not successfu
 it(/**
  * @throws \Psr\SimpleCache\InvalidArgumentException
  */ 'should returns token from cache', function () {
-    config(['bankly.client' => 'test', 'bankly.secret' => 'test']);
     Http::fake(
         ['https://login.sandbox.bankly.com.br/connect/token' => Http::response(
             [
@@ -84,7 +81,7 @@ it(/**
 });
 
 it('should returns env url if sandbox', function (string $env) {
-    config(['bankly.env' => $env, 'bankly.client' => 'test', 'bankly.secret' => 'test']);
+    config(['bankly.env' => $env]);
     Http::fake(
         ['https://login.sandbox.bankly.com.br/connect/token' => Http::response(
             [
@@ -103,7 +100,7 @@ it('should returns env url if sandbox', function (string $env) {
 })->with(['staging', 'local', 'testing']);
 
 it('should returns env url if production', function () {
-    config(['bankly.env' => 'production', 'bankly.client' => 'test', 'bankly.secret' => 'test']);
+    config(['bankly.env' => 'production']);
     Http::fake(
         ['https://login.bankly.com.br/connect/token' => Http::response(
             [
@@ -123,7 +120,7 @@ it('should returns env url if production', function () {
 
 
 it('should returns token object on Authentication', function () {
-    config(['bankly.env' => 'production', 'bankly.client' => 'test', 'bankly.secret' => 'test']);
+    config(['bankly.env' => 'production']);
     Http::fake(
         ['https://login.bankly.com.br/connect/token' => Http::response(
             [
@@ -143,7 +140,7 @@ it('should returns token object on Authentication', function () {
 });
 
 it('should returns token object on Authentication if cache filled', function () {
-    config(['bankly.env' => 'production', 'bankly.client' => 'test', 'bankly.secret' => 'test']);
+    config(['bankly.env' => 'production']);
     Http::fake(
         ['https://login.bankly.com.br/connect/token' => Http::response(
             [
@@ -167,7 +164,7 @@ it('should returns token object on Authentication if cache filled', function () 
 });
 
 it('should send the correct information in the authentication request', function () {
-    config(['bankly.env' => 'production', 'bankly.client' => 'test', 'bankly.secret' => 'test', 'bankly.default_scopes' => 'scope1 scope2']);
+    config(['bankly.env' => 'production', 'bankly.default_scopes' => 'scope1 scope2']);
     Http::fake(
         ['https://login.bankly.com.br/connect/token' => Http::response(
             [

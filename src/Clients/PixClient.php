@@ -7,10 +7,10 @@ use Idez\Bankly\Enums\AccountType;
 use Idez\Bankly\Enums\InitializationType;
 use Idez\Bankly\Enums\RefundPixReason;
 use Idez\Bankly\Exceptions\BanklyDictKeyNotFoundException;
-use Idez\Bankly\Exceptions\BanklyPixFailedException;
 use Idez\Bankly\Resources\Account;
-use Idez\Bankly\Resources\DictKey;
-use Idez\Bankly\Resources\PixTransfer;
+use Idez\Bankly\Resources\Pix\DictKey;
+use Idez\Bankly\Resources\Pix\StaticQrCode;
+use Idez\Bankly\Resources\Pix\Transfer;
 use Idez\Bankly\Resources\Refund;
 use Illuminate\Http\Client\RequestException;
 
@@ -29,7 +29,7 @@ class PixClient extends BanklyMTLSClient
         string $locationZip,
         bool   $singlePayment = false
     ): object {
-        return $this->client()->post("/pix/qrcodes", [
+        $staticQrCode = $this->client()->post("/pix/qrcodes", [
             'addressingKey' => [
                 'type' => $keyType,
                 'value' => $keyValue,
@@ -42,13 +42,15 @@ class PixClient extends BanklyMTLSClient
                 'city' => $locationCity,
                 'zipCode' => $locationZip,
             ],
-        ])->throw()->object();
+        ])->throw()->json();
+
+        return StaticQrCode::make($staticQrCode);
     }
 
     /**
-     * @throws BanklyPixFailedException
+     * @throws RequestException
      */
-    public function executePix(Account $from, Account|DictKey $to, float $amount, string $description = '', AccountType $type = AccountType::Checking): PixTransfer
+    public function executePix(Account $from, Account|DictKey $to, float $amount, string $description = '', AccountType $type = AccountType::Checking): Transfer
     {
         $data = [
             'amount' => $amount,
@@ -94,12 +96,8 @@ class PixClient extends BanklyMTLSClient
             ];
         }
 
-        $request = $this->client()->post('/pix/cash-out', $data);
-        if ($request->failed()) {
-            throw new BanklyPixFailedException('Failed PIX Transfer');
-        }
-
-        return new PixTransfer($request->json());
+        $request = $this->client()->post('/pix/cash-out', $data)->throw();
+        return new Transfer($request->json());
     }
 
     /**

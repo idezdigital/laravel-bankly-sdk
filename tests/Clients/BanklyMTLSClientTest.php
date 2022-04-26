@@ -7,29 +7,29 @@ use Illuminate\Support\Facades\Cache;
 it('should throws if certificate path is null', function () {
     config(['bankly.mTls.certificate_path' => null]);
     new class () extends BanklyMTLSClient {};
-})->throws(Illuminate\Validation\ValidationException::class, 'The certificate field is required.');
+})->throws(Illuminate\Validation\ValidationException::class, );
 
 it('should throws if private key path is null', function () {
     config(['bankly.mTls.private_key_path' => null]);
     new class () extends BanklyMTLSClient {};
-})->throws(Illuminate\Validation\ValidationException::class, 'The private field is required.');
+})->throws(Illuminate\Validation\ValidationException::class);
 
 it('should throws if passphrase is null', function () {
     config(['bankly.mTls.passphrase' => null]);
     new class () extends BanklyMTLSClient {};
-})->throws(Illuminate\Validation\ValidationException::class, 'The passphrase must be a string.');
+})->throws(Illuminate\Validation\ValidationException::class, );
 
 
 it('should throws if certificate file not exists', function () {
     config(['bankly.mTls.certificate_path' => 'batatinha.cert']);
     new class () extends BanklyMTLSClient {};
-})->throws(Illuminate\Validation\ValidationException::class, 'The file does not exist.');
+})->throws(Illuminate\Validation\ValidationException::class);
 
 
 it('should throws if private key file not exists', function () {
     config(['bankly.mTls.private_key_path' => 'batatinha.pem']);
     new class () extends BanklyMTLSClient {};
-})->throws(Illuminate\Validation\ValidationException::class, 'The file does not exist.');
+})->throws(Illuminate\Validation\ValidationException::class);
 
 
 it('should passes if passphrase is valid', function () {

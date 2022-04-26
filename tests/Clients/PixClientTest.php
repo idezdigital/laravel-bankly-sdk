@@ -34,20 +34,21 @@ test('should create qrcode', function () {
             ],
             403
         ),
-        'https://sandbox.bankly.com.br/pix/qrcodes' => Http::response(['encodedValue'=> $encoded],200),
-    ]);
+        'https://sandbox.bankly.com.br/pix/qrcodes' => Http::response(['encodedValue' => $encoded], 200),
+    ]
+    );
 
-     $pix = new \Idez\Bankly\Clients\PixClient();
-     $qr = $pix->createStaticQrCode(
-         keyType: 'evp',
-         keyValue: Str::uuid()->toString(),
-         amount: 100.00,
-         conciliationId: Str::random(16),
-         recipientName: \Pest\Faker\faker()->name,
-         locationCity: \Pest\Faker\faker('pt_BR')->city,
-         locationZip: \Pest\Faker\faker('pt_BR')->postcode(),
-         singlePayment: false
-     );
+    $pix = new \Idez\Bankly\Clients\PixClient();
+    $qr = $pix->createStaticQrCode(
+        keyType: 'evp',
+        keyValue: Str::uuid()->toString(),
+        amount: 100.00,
+        conciliationId: Str::random(16),
+        recipientName: \Pest\Faker\faker()->name,
+        locationCity: \Pest\Faker\faker('pt_BR')->city,
+        locationZip: \Pest\Faker\faker('pt_BR')->postcode(),
+        singlePayment: false
+    );
 
-     $this->assertEquals('https://api.pix.fr/v1/qrcode/test', $qr);
- });
+    $this->assertEquals('https://api.pix.fr/v1/qrcode/test', $qr);
+});

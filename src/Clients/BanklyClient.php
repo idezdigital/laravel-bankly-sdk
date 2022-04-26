@@ -51,7 +51,7 @@ abstract class BanklyClient
             throw new BanklyAuthenticationException('Client or secret not set');
         }
 
-        if($authenticate) {
+        if ($authenticate) {
             $this->authenticate();
         }
     }

@@ -73,7 +73,7 @@ abstract class BanklyMTLSClient
             throw new BanklyAuthenticationException('Certificate, private key and password are required.');
         }
 
-        if($authenticate) {
+        if ($authenticate) {
             $this->authenticate();
         }
     }

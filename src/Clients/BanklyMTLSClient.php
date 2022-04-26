@@ -41,7 +41,8 @@ abstract class BanklyMTLSClient
         private string|null          $privatePath = null,
         private string|null          $passphrase = null,
         array|string|Collection|null $scopes = null,
-        array|Collection             $middlewares = []
+        array|Collection             $middlewares = [],
+        bool $authenticate = true
     ) {
         $this->certificatePath ??= config('bankly.mTls.certificate_path');
         $this->privatePath ??= config('bankly.mTls.private_key_path');
@@ -72,7 +73,9 @@ abstract class BanklyMTLSClient
             throw new BanklyAuthenticationException('Certificate, private key and password are required.');
         }
 
-        $this->authentication();
+        if($authenticate) {
+            $this->authenticate();
+        }
     }
 
     public function getEnvUrl(): string
@@ -103,7 +106,7 @@ abstract class BanklyMTLSClient
      * @return Token access token
      * @throws RequestException
      */
-    public function authentication(): Token
+    public function authenticate(): Token
     {
         $cachedToken = $this->getCachedToken();
 

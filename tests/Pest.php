@@ -1,8 +1,10 @@
 <?php
 
 use Idez\Bankly\Tests\TestCase;
+use PHPUnit\Framework\Assert;
 
-uses(TestCase::class)
+uses(TestCase::class)->in(__DIR__);
+uses()
     ->beforeEach(function () {
         Storage::fake();
         $this->cert = \Illuminate\Http\UploadedFile::fake()->create('cert.pem')->store('cert.pem');
@@ -16,4 +18,14 @@ uses(TestCase::class)
             'bankly.client' => 'test',
             'bankly.secret' => 'test',
         ]);
-    })->in(__DIR__);
+    })->in('Clients');
+
+expect()->extend('toBeBase64', function () {
+    $this->toBeString();
+    $this->toMatch('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/');
+    $decoded = base64_decode($this->value, true);
+    Assert::assertNotFalse($decoded);
+    Assert::assertEquals($this->value, base64_encode($decoded));
+
+    return $this;
+});

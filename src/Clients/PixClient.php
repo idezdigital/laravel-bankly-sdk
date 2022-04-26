@@ -13,6 +13,7 @@ use Idez\Bankly\Resources\Pix\StaticQrCode;
 use Idez\Bankly\Resources\Pix\Transfer;
 use Idez\Bankly\Resources\Refund;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Support\Str;
 
 class PixClient extends BanklyMTLSClient
 {
@@ -36,15 +37,20 @@ class PixClient extends BanklyMTLSClient
             ],
             'conciliationId' => $conciliationId,
             'amount' => $amount,
-            'recipientName' => $recipientName,
+            'recipientName' => $this->sanitize($recipientName),
             'singlePayment' => $singlePayment,
             'location' => [
-                'city' => $locationCity,
+                'city' => $this->sanitize($locationCity),
                 'zipCode' => $locationZip,
             ],
         ])->throw()->json();
 
         return StaticQrCode::make($staticQrCode);
+    }
+
+    private function sanitize(string $string): string
+    {
+        return Str::of($string)->ascii()->replace(['.', "'", "-", "_"], "")->__toString();
     }
 
     /**

@@ -40,6 +40,7 @@ abstract class BanklyClient
         protected null|string $client = null,
         protected null|string $secret = null,
         protected array|Collection|null|string $scopes = null,
+        bool $authenticate = true
     ) {
         $this->client ??= config('bankly.client');
         $this->secret ??= config('bankly.secret');
@@ -50,7 +51,9 @@ abstract class BanklyClient
             throw new BanklyAuthenticationException('Client or secret not set');
         }
 
-        $this->authentication();
+        if($authenticate) {
+            $this->authenticate();
+        }
     }
 
     /**
@@ -68,7 +71,7 @@ abstract class BanklyClient
      * @return Token
      * @throws RequestException
      */
-    public function authentication(): Token
+    public function authenticate(): Token
     {
         $cachedToken = $this->getCachedToken();
 

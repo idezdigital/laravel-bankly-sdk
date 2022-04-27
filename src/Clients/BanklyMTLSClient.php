@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Clients;
 
-use Idez\Bankly\Exceptions\AuthenticationException;
+use Idez\Bankly\Exceptions\BanklyAuthenticationException;
 use Idez\Bankly\Resources\Token;
 use Idez\Bankly\Rules\FileExistsRule;
 use Illuminate\Http\Client\PendingRequest;
@@ -11,12 +11,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
-use InvalidArgumentException;
 use JetBrains\PhpStorm\ArrayShape;
 
-abstract class BanklyClient
+abstract class BanklyMTLSClient
 {
     protected const BASE_URL_PROD = 'bankly.com.br';
     protected const BASE_URL_SANDBOX = 'sandbox.bankly.com.br';
@@ -36,7 +34,7 @@ abstract class BanklyClient
 
     /**
      * @throws RequestException
-     * @throws AuthenticationException
+     * @throws BanklyAuthenticationException
      */
     public function __construct(
         private string|null          $certificatePath = null,
@@ -72,7 +70,7 @@ abstract class BanklyClient
         )->validate();
 
         if (is_null($this->certificatePath) || is_null($this->privatePath) || is_null($this->passphrase)) {
-            throw new AuthenticationException('Certificate, private key and password are required.');
+            throw new BanklyAuthenticationException('Certificate, private key and password are required.');
         }
 
         if ($authenticate) {
@@ -95,8 +93,7 @@ abstract class BanklyClient
         $pendingRequest = Http::baseUrl('https://api.' . $this->getEnvUrl())
             ->withToken($cachedToken)
             ->retry(self::RETRY_COUNT, self::RETRY_INTERVAL)
-            ->withHeaders(['api-version' => self::API_VERSION, 'x-correlation-id' => Str::uuid()->toString()])
-            ->throw();
+            ->withHeaders(['api-version' => self::API_VERSION]);
 
         foreach ($this->middlewares as $middleware) {
             $pendingRequest->withMiddleware($middleware);
@@ -160,10 +157,6 @@ abstract class BanklyClient
         return $this;
     }
 
-    /**
-     * @param array|string|Collection|null $scopes
-     * @return $this
-     */
     public function setScopes(array|string|Collection|null $scopes): self
     {
         $this->scopes = $this->normalizeScopes($scopes);
@@ -181,32 +174,12 @@ abstract class BanklyClient
         return $this->scopes;
     }
 
-    public function containsScope(string $scope): bool
-    {
-        return Str::contains($this->scopes, $scope);
-    }
-
-    /**
-     * @param array|string|Collection $scopes
-     * @return string
-     * @throws InvalidArgumentException
-     */
     public function normalizeScopes(array|string|Collection $scopes): string
     {
         if (is_string($scopes)) {
-            $scopes = explode(' ', $scopes);
+            return $scopes;
         }
 
-        $scopes = collect($scopes);
-
-        if($scopes->isEmpty()) {
-            throw new InvalidArgumentException('Scopes must be a non-empty string or collection');
-        }
-
-        if($scopes->count() > 10) {
-            throw new InvalidArgumentException('Scopes must be less than 10');
-        }
-
-        return $scopes->implode(' ');
+        return collect($scopes)->implode(' ');
     }
 }

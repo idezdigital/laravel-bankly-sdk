@@ -2,13 +2,11 @@
 
 namespace Idez\Bankly\Clients;
 
-use App\Enums\AddressType;
 use Idez\Bankly\Bankly;
 use Idez\Bankly\Enums\AccountType;
-use Idez\Bankly\Enums\InitializationType;
 use Idez\Bankly\Enums\DictKeyType;
+use Idez\Bankly\Enums\InitializationType;
 use Idez\Bankly\Enums\RefundPixReason;
-use Idez\Bankly\Exceptions\DictKeyNotFoundException;
 use Idez\Bankly\Exceptions\InvalidDictKeyTypeException;
 use Idez\Bankly\Resources\Account;
 use Idez\Bankly\Resources\Pix\DictKey;
@@ -42,8 +40,7 @@ class PixClient extends BanklyClient
         string $locationCity,
         string $locationZip,
         bool   $singlePayment = false
-    ): StaticQrCode
-    {
+    ): StaticQrCode {
         $staticQrCode = $this->client()->post("/pix/qrcodes", [
             'addressingKey' => [
                 'type' => $keyType,
@@ -133,8 +130,7 @@ class PixClient extends BanklyClient
         string          $authenticationCode,
         float           $amount,
         RefundPixReason $refundCode = RefundPixReason::NotAccepted
-    ): Refund
-    {
+    ): Refund {
         $response = $this->client()->post('/baas/pix/cash-out:refund', [
             'account' => [
                 'branch' => $from->branch,
@@ -174,6 +170,7 @@ class PixClient extends BanklyClient
     public function listDictKeys(string $accountNumber): array
     {
         $keys = $this->client()->get("/accounts/{$accountNumber}/addressing-keys")->json();
-        return array_map(fn($key) => new ValueType($key), $keys);
+
+        return array_map(fn ($key) => new ValueType($key), $keys);
     }
 }

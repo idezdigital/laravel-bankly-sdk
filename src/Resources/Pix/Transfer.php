@@ -3,7 +3,6 @@
 namespace Idez\Bankly\Resources\Pix;
 
 use Idez\Bankly\Resources\Resource;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Transfer extends Resource
 {
@@ -14,7 +13,6 @@ class Transfer extends Resource
     public Contact $sender;
     public Contact $recipient;
     public string $authenticationCode;
-
 
     public function __construct($data = [])
     {

@@ -18,7 +18,7 @@ enum DictKeyType: string implements NovaSelectEnumInterface
 
     public function label(): string
     {
-        return match($this){
+        return match ($this) {
             self::Email => 'E-mail',
             self::Phone => 'Telefone',
             self::EVP => 'Chave Aleatória',

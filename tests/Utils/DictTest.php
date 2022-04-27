@@ -79,5 +79,5 @@ dataset('phones', [
     'phone_with_mask' => '11 99999-9999',
     'phone_without_mask' => '11999999999',
     'phone_with_ddd_mask' => '(11) 99999-9999',
-    'phone_with_ddi' => '+5511999999999'
+    'phone_with_ddi' => '+5511999999999',
 ]);

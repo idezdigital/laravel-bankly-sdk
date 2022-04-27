@@ -3,15 +3,18 @@
 namespace Idez\Bankly\Resources\Pix;
 
 use Idez\Bankly\Resources\Resource;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Transfer extends Resource
 {
     public float $amount;
+    public float $withdrawalAmount = 0.00;
+    public float $chargeAmount = 0.00;
     public string $description;
     public Contact $sender;
     public Contact $recipient;
+    public string $authenticationCode;
 
-    public ?string $authenticationCode;
 
     public function __construct($data = [])
     {

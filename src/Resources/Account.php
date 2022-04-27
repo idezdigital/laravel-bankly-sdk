@@ -3,21 +3,35 @@
 namespace Idez\Bankly\Resources;
 
 use Idez\Bankly\Enums\AccountType;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use function Pest\Laravel\instance;
 
 class Account extends Resource
 {
+    use HasFactory;
+
     public string $branch = '0001';
     public string $number;
+    public ?string $document = null;
     public ?AccountType $type = AccountType::Checking;
-    public ?string $document;
-    public ?Bank $bank;
-    public ?Holder $holder;
+    public ?Bank $bank = null;
+    public ?Holder $holder = null;
 
     public function __construct(mixed $data = [], string $branch = '0001')
     {
-        $data['bank'] = isset($data['bank']) ? new Bank($data['bank']) : null;
-        $data['holder'] = isset($data['holder']) ? new Holder($data['holder']) : null;
-        $data['type'] = isset($data['type']) ? AccountType::tryFrom($data['type']) : null;
+        if(isset($data['holder']) && !$data['holder'] instanceof Holder) {
+            $data['holder'] = new Holder($data['holder']);
+        }
+
+        if(isset($data['bank']) && !$data['bank'] instanceof Bank) {
+            $data['bank'] = new Bank($data['bank']);
+        } else {
+            $data['bank'] = new Bank();
+        }
+
+        if(isset($data['type']) && is_string($data['type'])) {
+            $data['type'] = AccountType::tryFrom($data['type']);
+        }
 
         if (isset($data['account'])) {
             $data['branch'] = $branch ?? $data['account']['branch'];

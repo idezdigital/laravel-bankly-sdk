@@ -17,6 +17,7 @@ uses()
             'bankly.env' => 'testing',
             'bankly.client' => 'test',
             'bankly.secret' => 'test',
+            'bankly.default_scopes' => ['test'],
         ]);
     })->in('Clients');
 

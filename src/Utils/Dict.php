@@ -31,27 +31,13 @@ class Dict
     /**
      * @throws InvalidDictKeyTypeException
      */
-    public static function applyMask(string $key): string
-    {
-        $type = self::identifyDictKeyType($key);
-
-        return match($type){
-            DictKeyType::CPF => preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", self::cleanMask($key)),
-            DictKeyType::CNPJ => preg_replace("/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/", "\$1.\$2.\$3/\$4-\$5", self::cleanMask($key)),
-            DictKeyType::Phone => preg_replace("/(\d{3})(\d{2})(\d{5})(\d{4})/", "\$1 (\$2) \$3-\$4", self::cleanMask($key)),
-            default => $key
-        };
-    }
-
-    /**
-     * @throws InvalidDictKeyTypeException
-     */
     public static function cleanMask(string $key, ?DictKeyType $type = null): string
     {
         $type ??= self::identifyDictKeyType($key);
 
         return match ($type) {
-            DictKeyType::CPF, DictKeyType::CNPJ, DictKeyType::Phone => preg_replace('/\D/', '', $key),
+            DictKeyType::CPF, DictKeyType::CNPJ => preg_replace('/\D/', '', $key),
+            DictKeyType::Phone => preg_replace(['/\D/', '/\+?55/'], '', $key),
             default => $key
         };
     }

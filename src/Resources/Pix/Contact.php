@@ -11,9 +11,8 @@ class Contact extends Resource
 {
     use HasFactory;
     public ?string $name;
-    public string $documentType;
     public string $documentNumber;
-
+    public string $documentType;
     public Account $account;
     public Bank $bank;
 

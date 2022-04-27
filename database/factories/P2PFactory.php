@@ -2,18 +2,17 @@
 
 namespace Idez\Bankly\Database\Factories;
 
+use Idez\Bankly\Resources\P2P;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/*
-class ModelFactory extends Factory
+class P2PFactory extends Factory
 {
-    protected $model = YourModel::class;
+    protected $model = P2P::class;
 
     public function definition()
     {
         return [
-
+            'authenticationCode' => $this->faker->uuid,
         ];
     }
 }
-*/

@@ -2,23 +2,36 @@
 
 namespace Idez\Bankly\Clients;
 
+use App\Enums\AddressType;
 use Idez\Bankly\Bankly;
 use Idez\Bankly\Enums\AccountType;
 use Idez\Bankly\Enums\InitializationType;
+use Idez\Bankly\Enums\DictKeyType;
 use Idez\Bankly\Enums\RefundPixReason;
-use Idez\Bankly\Exceptions\BanklyDictKeyNotFoundException;
+use Idez\Bankly\Exceptions\DictKeyNotFoundException;
+use Idez\Bankly\Exceptions\InvalidDictKeyTypeException;
 use Idez\Bankly\Resources\Account;
 use Idez\Bankly\Resources\Pix\DictKey;
 use Idez\Bankly\Resources\Pix\StaticQrCode;
 use Idez\Bankly\Resources\Pix\Transfer;
 use Idez\Bankly\Resources\Refund;
+use Idez\Bankly\Resources\ValueType;
+use Idez\Bankly\Utils\Dict;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Str;
 
-class PixClient extends BanklyMTLSClient
+class PixClient extends BanklyClient
 {
     /**
-     * @throws RequestException
+     * @param string $keyType
+     * @param string $keyValue
+     * @param float $amount
+     * @param string $conciliationId
+     * @param string $recipientName
+     * @param string $locationCity
+     * @param string $locationZip
+     * @param bool $singlePayment
+     * @return StaticQrCode
      */
     public function createStaticQrCode(
         string $keyType,
@@ -29,7 +42,8 @@ class PixClient extends BanklyMTLSClient
         string $locationCity,
         string $locationZip,
         bool   $singlePayment = false
-    ): object {
+    ): StaticQrCode
+    {
         $staticQrCode = $this->client()->post("/pix/qrcodes", [
             'addressingKey' => [
                 'type' => $keyType,
@@ -43,7 +57,7 @@ class PixClient extends BanklyMTLSClient
                 'city' => $this->sanitize($locationCity),
                 'zipCode' => $locationZip,
             ],
-        ])->throw()->json();
+        ])->json();
 
         return StaticQrCode::make($staticQrCode);
     }
@@ -102,20 +116,25 @@ class PixClient extends BanklyMTLSClient
             ];
         }
 
-        $request = $this->client()->post('/pix/cash-out', $data)->throw();
+        $request = $this->client()->post('/pix/cash-out', $data);
 
         return new Transfer($request->json());
     }
 
     /**
-     * @throws RequestException
+     * @param Account $from
+     * @param string $authenticationCode
+     * @param float $amount
+     * @param RefundPixReason $refundCode
+     * @return Refund
      */
     public function refundPix(
-        Account $from,
-        string  $authenticationCode,
-        float   $amount,
-        RefundPixReason  $refundCode = RefundPixReason::NotAccepted
-    ): Refund {
+        Account         $from,
+        string          $authenticationCode,
+        float           $amount,
+        RefundPixReason $refundCode = RefundPixReason::NotAccepted
+    ): Refund
+    {
         $response = $this->client()->post('/baas/pix/cash-out:refund', [
             'account' => [
                 'branch' => $from->branch,
@@ -125,46 +144,36 @@ class PixClient extends BanklyMTLSClient
             'authenticationCode' => $authenticationCode,
             'amount' => $amount,
             'refundCode' => $refundCode,
-        ])->throw();
+        ]);
 
         return new Refund($response->json());
     }
 
     /**
-     * @throws BanklyDictKeyNotFoundException
+     * @param string $key
+     * @param string $pixUserId
+     * @param DictKeyType|null $dictKeyType
+     * @return DictKey
+     * @throws InvalidDictKeyTypeException
      */
-    public function searchDictKey(string $key, string $pixUserId): DictKey
+    public function searchDictKey(string $key, string $pixUserId, ?DictKeyType $dictKeyType = null): DictKey
     {
+        $key = Dict::cleanMask($key, $dictKeyType);
+
         $request = $this->client()->withHeaders([
             'x-bkly-pix-user-id' => $pixUserId,
         ])->get("/baas/pix/entries/{$key}");
-
-        if ($request->failed()) {
-            throw new BanklyDictKeyNotFoundException("Key {$key} not found in DICT.");
-        }
 
         return new DictKey($request->json());
     }
 
     /**
+     * @param string $accountNumber
+     * @return ValueType[]
      */
-    public function createDictKey(Account $account, AccountType $type = AccountType::Checking, string $value = ''): \Illuminate\Http\Client\Response
+    public function listDictKeys(string $accountNumber): array
     {
-        return $this->client()->post("/baas/pix/", [
-            'addressingKey' => [
-                'type' => $type,
-                'value' => $value,
-            ],
-            'account' => [
-                'branch' => $account->branch,
-                'number' => $account->number,
-                'type' => $account->type ?? $type,
-            ],
-        ]);
-    }
-
-    public function listDictKeys(string $accountNumber): \Illuminate\Http\Client\Response
-    {
-        return $this->client()->get("/accounts/{$accountNumber}/addressing-keys");
+        $keys = $this->client()->get("/accounts/{$accountNumber}/addressing-keys")->json();
+        return array_map(fn($key) => new ValueType($key), $keys);
     }
 }

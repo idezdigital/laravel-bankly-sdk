@@ -4,10 +4,10 @@ namespace Idez\Bankly\Data\Pix;
 
 use Idez\Bankly\Data\Account;
 use Idez\Bankly\Data\Bank;
-use Idez\Bankly\Data\Resource;
+use Idez\Bankly\Data\Data;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Contact extends Resource
+class Contact extends Data
 {
     use HasFactory;
     public ?string $name;

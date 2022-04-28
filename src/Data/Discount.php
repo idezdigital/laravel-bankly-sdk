@@ -6,7 +6,7 @@ use DateTime;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 
-class Discount extends Resource
+class Discount extends Data
 {
     public DateTime $limitDate;
     public string $type;

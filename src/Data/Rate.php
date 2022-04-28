@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Data;
 
-class Rate extends Resource
+class Rate extends Data
 {
     public \DateTime $startDate;
     public string $type;

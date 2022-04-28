@@ -5,7 +5,7 @@ namespace Idez\Bankly\Data;
 use Idez\Bankly\Enums\AccountType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Account extends Resource
+class Account extends Data
 {
     use HasFactory;
 

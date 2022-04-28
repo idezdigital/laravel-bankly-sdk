@@ -2,9 +2,9 @@
 
 namespace Idez\Bankly\Data\Webhooks;
 
-use Idez\Bankly\Data\Resource;
+use Idez\Bankly\Data\Data;
 
-class Amount extends Resource
+class Amount extends Data
 {
     public string $value;
     public string $currency;

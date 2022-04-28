@@ -2,9 +2,9 @@
 
 namespace Idez\Bankly\Data\Pix;
 
-use Idez\Bankly\Data\Resource;
+use Idez\Bankly\Data\Data;
 
-class Transfer extends Resource
+class Transfer extends Data
 {
     public float $amount;
     public float $withdrawalAmount = 0.00;

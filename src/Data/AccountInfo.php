@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Data;
 
-class AccountInfo extends Resource
+class AccountInfo extends Data
 {
     public string $status;
     public string $branch;

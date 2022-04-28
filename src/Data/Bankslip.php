@@ -7,7 +7,7 @@ use Exception;
 use Idez\Bankly\Data\Webhooks\Amount;
 use Psr\Http\Message\ResponseInterface;
 
-class Bankslip extends Resource
+class Bankslip extends Data
 {
     public string $authenticationCode;
     public DateTime $updatedAt;

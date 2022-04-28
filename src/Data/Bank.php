@@ -10,7 +10,7 @@ use Idez\Bankly\Bankly;
  * @property string $Ispb
  * @property string $Name
  */
-class Bank extends Resource
+class Bank extends Data
 {
     public string $ispb = Bankly::ACESSO_ISPB;
     public string $name = Bankly::ACESSO_NAME;

@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Data;
 
-class Contact extends Resource
+class Contact extends Data
 {
     public ?string $document;
 

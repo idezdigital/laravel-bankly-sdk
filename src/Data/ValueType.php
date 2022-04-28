@@ -4,7 +4,7 @@ namespace Idez\Bankly\Data;
 
 use Psr\Http\Message\ResponseInterface;
 
-class ValueType extends Resource
+class ValueType extends Data
 {
     public string $type;
     public ?string $value;

@@ -5,7 +5,7 @@ namespace Idez\Bankly\Data;
 use Idez\Bankly\Data\Pix\Contact;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Refund extends Resource
+class Refund extends Data
 {
     use HasFactory;
 

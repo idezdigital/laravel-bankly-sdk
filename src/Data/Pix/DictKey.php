@@ -3,11 +3,11 @@
 namespace Idez\Bankly\Data\Pix;
 
 use Idez\Bankly\Data\DictHolder;
-use Idez\Bankly\Data\Resource;
+use Idez\Bankly\Data\Data;
 use Idez\Bankly\Data\ValueType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class DictKey extends Resource
+class DictKey extends Data
 {
     use HasFactory;
 

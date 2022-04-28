@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Data;
 
-class Token extends Resource
+class Token extends Data
 {
     public string $token_type = 'bearer';
     public string $access_token;

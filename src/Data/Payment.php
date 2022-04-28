@@ -6,7 +6,7 @@ use DateTime;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 
-class Payment extends Resource
+class Payment extends Data
 {
     public string $id;
     public float $amount;

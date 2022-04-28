@@ -5,7 +5,7 @@ namespace Idez\Bankly\Data;
 use Idez\Bankly\Traits\Makeable;
 use Psr\Http\Message\ResponseInterface;
 
-abstract class Resource implements \JsonSerializable
+abstract class Data implements \JsonSerializable
 {
     use Makeable;
 

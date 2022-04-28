@@ -8,7 +8,7 @@ namespace Idez\Bankly\Data;
  * @property string $Ispb
  * @property string $Name
  */
-class AccountBalance extends Resource
+class AccountBalance extends Data
 {
     public string $amount;
     public string $currency;

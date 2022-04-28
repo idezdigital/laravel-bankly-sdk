@@ -5,11 +5,21 @@ namespace Idez\Bankly\Clients;
 use Carbon\Carbon;
 use Idez\Bankly\Data\Account;
 use Idez\Bankly\Data\AccountInfo;
+use Idez\Bankly\Data\Event;
 use Illuminate\Http\Client\RequestException;
 
 class AccountClient extends BaseClient
 {
-    public function getEvents(Account $account, ?Carbon $from = null, ?Carbon $to = null, int $page = 1, int $pageSize = 100, bool $includeDetails = true): object
+    /**
+     * @param Account $account
+     * @param Carbon|null $from
+     * @param Carbon|null $to
+     * @param int $page
+     * @param int $pageSize
+     * @param bool $includeDetails
+     * @return Event[]
+     */
+    public function getEvents(Account $account, ?Carbon $from = null, ?Carbon $to = null, int $page = 1, int $pageSize = 100, bool $includeDetails = true): array
     {
         $data = [
             'page' => $page,
@@ -30,7 +40,8 @@ class AccountClient extends BaseClient
             $data['endDateTime'] = $to->setTimezone('UTC')->format('Y-m-d\TH:i:s');
         }
 
-        return $this->client()->get('/events', $data)->object();
+        $events =  $this->client()->get('/events', $data)->json();
+        return array_map(fn ($event) => new Event($event), $events);
     }
 
     /**

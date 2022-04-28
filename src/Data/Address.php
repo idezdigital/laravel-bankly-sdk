@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Data;
 
-class Address extends Resource
+class Address extends Data
 {
     public string $addressLine;
     public string $city;

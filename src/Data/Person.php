@@ -4,7 +4,7 @@ namespace Idez\Bankly\Data;
 
 use Psr\Http\Message\ResponseInterface;
 
-class Person extends Resource
+class Person extends Data
 {
     public string $document;
     public string $name;

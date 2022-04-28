@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Data;
 
-class DictHolder extends Resource
+class DictHolder extends Data
 {
     public string $name;
     public string $type;

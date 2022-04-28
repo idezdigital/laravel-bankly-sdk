@@ -35,7 +35,7 @@ it('should create qrcode and returns base64', function () {
     $keyValue = Str::uuid()->toString();
     $conciliationId = Str::random();
     $name = \Pest\Faker\faker()->company;
-    $city = \Pest\Faker\faker('pt_BR')->city;
+    $city = 'São Paulo';
     $zip = \Pest\Faker\faker('pt_BR')->postcode;
 
     $staticQrCode = $pix->createStaticQrCode(
@@ -63,15 +63,16 @@ it('should create qrcode and returns base64', function () {
         ],
         'conciliationId' => $conciliationId,
         'amount' => 100.00,
-        'recipientName' => Str::of($name)->replace(['.', "'", "-", "_"], "")->__toString(),
+        'recipientName' => Str::of($name)->ascii()->replace(['.', "'", "-", "_"], "")->__toString(),
         'singlePayment' => false,
         'location' => [
-            'city' => Str::of($city)->replace(['.', "'", "-", "_"], "")->__toString(),
+            'city' => Str::of($city)->ascii()->replace(['.', "'", "-", "_"], "")->__toString(),
             'zipCode' => $zip,
         ],
     ];
 
     Http::assertSent(function (\Illuminate\Http\Client\Request $request) use ($data) {
+        dump($data, $request->data());
         return $data === $request->data();
     });
 });

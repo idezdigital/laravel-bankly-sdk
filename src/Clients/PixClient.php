@@ -54,7 +54,7 @@ class PixClient extends BaseClient
                 'city' => $this->sanitize($locationCity),
                 'zipCode' => $locationZip,
             ],
-        ])->json()->throw();
+        ])->throw()->json();
 
         return StaticQrCode::make($staticQrCode);
     }

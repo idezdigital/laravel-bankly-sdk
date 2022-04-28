@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1651118306">
-  <project timestamp="1651118306">
+<coverage generated="1651118338">
+  <project timestamp="1651118338">
     <file name="/home/arthur/Idez/laravel-bankly-sdk/src/Bankly.php">
       <class name="Idez\Bankly\Bankly" namespace="global">
         <metrics complexity="5" methods="5" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="5" coveredstatements="5" elements="10" coveredelements="10"/>

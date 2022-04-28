@@ -2,9 +2,10 @@
 
 namespace Idez\Bankly\Data\Webhooks;
 
+use Idez\Bankly\Data\Data;
 use Idez\Bankly\Data\ValueType;
 
-class CashInData extends Struct
+class CashInData extends Data
 {
     public ?ValueType $addressingKey;
     public string $authenticationCode;

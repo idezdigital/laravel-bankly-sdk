@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Models\Bankly\Webhook;
+namespace Idez\Bankly\Data\Webhooks;
 
-use App\Models\Bankly\Account;
-use App\Models\Bankly\ValueType;
-use App\Models\Struct;
+use Idez\Bankly\Data\Account;
+use Idez\Bankly\Data\ValueType;
+use Idez\Bankly\Data\Data;
 
 /**
- * Todo: merge to App\Models\Account
+ * Todo: merge to Idez\Bankly\Data\Account
  */
-class Recipient extends Struct
+class Recipient extends Data
 {
     public ValueType $document;
     public string $type;

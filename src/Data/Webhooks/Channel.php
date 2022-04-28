@@ -2,7 +2,9 @@
 
 namespace Idez\Bankly\Data\Webhooks;
 
-class Channel extends Struct
+use Idez\Bankly\Data\Data;
+
+class Channel extends Data
 {
     public string $name;
     public string $end2EndId;

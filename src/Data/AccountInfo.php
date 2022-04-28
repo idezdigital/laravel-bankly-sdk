@@ -13,7 +13,7 @@ class AccountInfo extends Data
 
     public function __construct($data = [])
     {
-        if(isset($data['balance'])) {
+        if (isset($data['balance'])) {
             $data['inProcess'] = new AccountBalance($data['balance']['inProcess']);
             $data['blocked'] = new AccountBalance($data['balance']['blocked']);
             $data['available'] = new AccountBalance($data['balance']['available']);

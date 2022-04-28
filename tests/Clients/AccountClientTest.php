@@ -1,6 +1,5 @@
 <?php
 
-use Idez\Bankly\Data\AccountInfo;
 
 it('should returns all events', function () {
     Http::fake([
@@ -94,7 +93,7 @@ it('should returns account info with balance', function () {
             'status' => 'ACTIVE',
             'branch' => '0001',
             'number' => '210773',
-        ])
+        ]),
     ]);
     $accountClient = new \Idez\Bankly\Clients\AccountClient(authenticate: false);
     $data = $accountClient->getAccountData('210773');
@@ -108,7 +107,7 @@ it('should returns account info without balance', function () {
             'status' => 'ACTIVE',
             'branch' => '0001',
             'number' => '210773',
-        ])
+        ]),
     ]);
 
     $accountClient = new \Idez\Bankly\Clients\AccountClient(authenticate: false);
@@ -137,7 +136,7 @@ it('should returns account balance', function () {
             'status' => 'ACTIVE',
             'branch' => '0001',
             'number' => '210773',
-        ])
+        ]),
     ]);
 
     $accountClient = new \Idez\Bankly\Clients\AccountClient(authenticate: false);

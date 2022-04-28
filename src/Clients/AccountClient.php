@@ -40,7 +40,7 @@ class AccountClient extends BaseClient
             $data['endDateTime'] = $to->setTimezone('UTC')->format('Y-m-d\TH:i:s');
         }
 
-        $events = $this->client()->get('/events', $data)->json();
+        $events = $this->client()->get('/events', $data)->throw()->json();
 
         return array_map(fn ($event) => new Event($event), $events);
     }
@@ -49,7 +49,7 @@ class AccountClient extends BaseClient
     {
         $responseObj = $this->client()->get("/accounts/{$accountNumber}", [
             'includeBalance' => $includeBalance,
-        ])->json();
+        ])->throw()->json();
 
         return new AccountInfo($responseObj);
     }

@@ -89,8 +89,7 @@ abstract class BaseClient
         $pendingRequest = Http::baseUrl('https://api.' . $this->getEnvUrl())
             ->withToken($cachedToken)
             ->retry(self::RETRY_COUNT, self::RETRY_INTERVAL)
-            ->withHeaders(['api-version' => self::API_VERSION, 'x-correlation-id' => Str::uuid()->toString()])
-            ->throw();
+            ->withHeaders(['api-version' => self::API_VERSION, 'x-correlation-id' => Str::uuid()->toString()]);
 
         // @codeCoverageIgnoreStart
         foreach ($this->middlewares as $middleware) {

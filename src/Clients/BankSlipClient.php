@@ -48,6 +48,7 @@ class BankSlipClient extends BaseClient
     public function getBankslip(Account $account, string $authorizationCode): object
     {
         $response = $this->client()->get("/bankslip/branch/{$account->branch}/number/{$account->number}/{$authorizationCode}")
+            ->throw()
             ->json();
 
         return new Bankslip($response);
@@ -66,6 +67,6 @@ class BankSlipClient extends BaseClient
         }
 
 
-        return $response->get("/bankslip/{$authorizationCode}/pdf");
+        return $response->get("/bankslip/{$authorizationCode}/pdf")->throw();
     }
 }

@@ -54,7 +54,7 @@ class PixClient extends BaseClient
                 'city' => $this->sanitize($locationCity),
                 'zipCode' => $locationZip,
             ],
-        ])->json();
+        ])->json()->throw();
 
         return StaticQrCode::make($staticQrCode);
     }
@@ -113,9 +113,9 @@ class PixClient extends BaseClient
             ];
         }
 
-        $request = $this->client()->post('/pix/cash-out', $data);
+        $transfer = $this->client()->post('/pix/cash-out', $data)->throw();
 
-        return new Transfer($request->json());
+        return new Transfer($transfer->json());
     }
 
     /**
@@ -140,7 +140,7 @@ class PixClient extends BaseClient
             'authenticationCode' => $authenticationCode,
             'amount' => $amount,
             'refundCode' => $refundCode,
-        ]);
+        ])->throw();
 
         return new Refund($response->json());
     }
@@ -158,7 +158,7 @@ class PixClient extends BaseClient
 
         $request = $this->client()->withHeaders([
             'x-bkly-pix-user-id' => $pixUserId,
-        ])->get("/baas/pix/entries/{$key}");
+        ])->get("/baas/pix/entries/{$key}")->throw();
 
         return new DictKey($request->json());
     }
@@ -169,7 +169,9 @@ class PixClient extends BaseClient
      */
     public function listDictKeys(string $accountNumber): array
     {
-        $keys = $this->client()->get("/accounts/{$accountNumber}/addressing-keys")->json();
+        $keys = $this->client()->get("/accounts/{$accountNumber}/addressing-keys")
+            ->throw()
+            ->json();
 
         return array_map(fn ($key) => new ValueType($key), $keys);
     }

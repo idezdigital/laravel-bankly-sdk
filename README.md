@@ -21,7 +21,6 @@ You can publish and run the migrations with:
 
 ```bash
 php artisan vendor:publish --tag="laravel-bankly-sdk-migrations"
-php artisan migrate
 ```
 
 You can publish the config file with:

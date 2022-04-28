@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AccountFactory extends Factory
 {
+    /**
+     * @phpstan-ignore-next-line
+     */
     protected $model = Account::class;
 
     public function definition()

@@ -83,8 +83,8 @@ class PixClient extends BaseClient
                     'compe' => Bankly::ACESSO_COMPE,
                     'name' => Bankly::ACESSO_NAME,
                 ],
-                'documentNumber' => $from?->holder?->documentNumber,
-                'name' => $from?->holder->name,
+                'documentNumber' => $from->holder?->documentNumber,
+                'name' => $from->holder?->name,
             ],
         ];
 
@@ -108,8 +108,8 @@ class PixClient extends BaseClient
                     'name' => $account->bank->name,
                     'compe' => $account->bank->compe,
                 ],
-                'name' => $account?->name ?? $account?->holder?->name ?? 'Não identificado',
-                'documentNumber' => $account?->document ?? $account?->holder?->documentNumber ?? $to->holder->documentNumber ?? $to->documentNumber,
+                'name' => $account->holder?->name ?? 'Não identificado',
+                'documentNumber' => $account->document ?? $account->holder?->documentNumber ?? $to->holder->documentNumber
             ];
         }
 

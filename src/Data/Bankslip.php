@@ -36,7 +36,7 @@ class Bankslip extends Data
      */
     public function __construct(array|ResponseInterface $data = [])
     {
-        $data['account'] = new Account($data['account']) ?? [];
+        $data['account'] = new Account($data['account']);
         $data['amount'] = isset($data['amount']) ? new Amount($data['amount']) : null;
         $data['minimumAmount'] = isset($data['minimumAmount']) ? new Amount($data['minimumAmount']) : null;
         $data['updatedAt'] = isset($data['updatedAt']) ? new DateTime($data['updatedAt']) : null;

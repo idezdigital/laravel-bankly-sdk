@@ -12,6 +12,9 @@ trait Makeable
      */
     public static function make(...$arguments): static
     {
+        /**
+         * @phpstan-ignore-next-line
+         */
         return new static(...$arguments);
     }
 }

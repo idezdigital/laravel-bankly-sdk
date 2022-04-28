@@ -131,13 +131,12 @@ abstract class BaseClient
 
             $authObject = new Token($auth->json());
             $cachedToken = $authObject->access_token;
-            cache()->put(self::TOKEN_KEY, $cachedToken, $authObject->expires_in * 0.8);
+            cache()->put(self::TOKEN_KEY, $cachedToken, $authObject->expires_in ?? 0 * 0.8);
         }
 
         return $authObject ?? new Token(['access_token' => $cachedToken]);
     }
 
-    #[ArrayShape(['cert' => "array", 'ssl_key' => "array"])]
     private function getCerts(): array
     {
         return [

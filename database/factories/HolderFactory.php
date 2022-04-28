@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class HolderFactory extends Factory
 {
+    /**
+     * @phpstan-ignore-next-line
+     */
     protected $model = Holder::class;
 
     public function definition()

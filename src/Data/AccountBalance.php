@@ -10,6 +10,6 @@ namespace Idez\Bankly\Data;
  */
 class AccountBalance extends Data
 {
-    public string $amount;
+    public float $amount;
     public string $currency;
 }

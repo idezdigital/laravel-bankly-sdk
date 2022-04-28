@@ -33,7 +33,7 @@ class Account extends Data
         }
 
         if (isset($data['account'])) {
-            $data['branch'] = $branch ?? $data['account']['branch'];
+            $data['branch'] = $data['account']['branch'] ?? $branch ;
             $data['number'] = $data['account']['number'];
         }
 

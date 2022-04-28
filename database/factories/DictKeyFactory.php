@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DictKeyFactory extends Factory
 {
+    /**
+     * @phpstan-ignore-next-line
+     */
     protected $model = DictKey::class;
 
     public function definition()

@@ -22,7 +22,7 @@ class TransferClient extends BaseClient
             ],
             'recipient' => [
                 'bankCode' => $to->bank?->compe ?? Bankly::ACESSO_COMPE,
-                'name' => $to?->holder?->name ?? $to->number,
+                'name' => $to->holder?->name ?? $to->number,
                 'branch' => $to->branch ?? '0001',
                 'account' => $to->number,
                 'document' => $to->document,

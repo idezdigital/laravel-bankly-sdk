@@ -2,7 +2,7 @@
 
 it('should returns all events', function () {
     Http::fake([
-        'https://api.sandbox.bankly.com.br/events*' => Http::response( [
+        'https://api.sandbox.bankly.com.br/events*' => Http::response([
             [
                 'aggregateId' => 'TRANSACTION_ID_1ee9751e-3584-41be-9c68-1f45299308ca',
                 'type' => 'TRANSACTION',
@@ -35,12 +35,12 @@ it('should returns all events', function () {
                     'RefundReason' => '',
                     'TotalRefundedAmount' => 2.5,
                     'AuthenticationCode' => 'a010c49f-ef21-4100-a921-0e7fd843ca4c',
-                    'EndToEndId' => NULL,
+                    'EndToEndId' => null,
                     'TransactionDate' => '2022-04-27T10:32:21.56877Z',
                     'InitializationType' => 'Manual',
                     'AddressKey' => 'd8b3c33f-9bc9-4444-8716-d7a6d243e55e',
                     'AddressKeyType' => 'EVP',
-                    'Description' => NULL,
+                    'Description' => null,
                     'Channel' => 'INTERNAL',
                     'Amount' => -2.5,
                     'Recipient' => [
@@ -54,10 +54,10 @@ it('should returns all events', function () {
                         'BankName' => 'Acesso Soluções De Pagamento S.A.',
                         'BankCompe' => '332',
                     ],
-                    'ScheduledPaymentDate' => NULL,
-                    'AmountDetails' => NULL,
-                    'WithdrawalProviderIspb' => NULL,
-                    'WithdrawalAgentType' => NULL,
+                    'ScheduledPaymentDate' => null,
+                    'AmountDetails' => null,
+                    'WithdrawalProviderIspb' => null,
+                    'WithdrawalAgentType' => null,
                 ],
                 'status' => 'ACTIVE',
             ],

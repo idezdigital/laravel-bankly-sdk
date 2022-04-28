@@ -198,11 +198,11 @@ abstract class BaseClient
 
         $scopes = collect($scopes);
 
-        if($scopes->isEmpty()) {
+        if ($scopes->isEmpty()) {
             throw new InvalidArgumentException('Scopes must be a non-empty string or collection');
         }
 
-        if($scopes->count() > 10) {
+        if ($scopes->count() > 10) {
             throw new InvalidArgumentException('Scopes must be less than 10');
         }
 

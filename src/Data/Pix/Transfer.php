@@ -15,7 +15,6 @@ class Transfer extends Resource
     public Contact $recipient;
     public string $authenticationCode;
 
-
     public function __construct($data = [])
     {
         $data['sender'] = $data['sender'] instanceof Contact ? $data['sender'] : new Contact($data['sender']);

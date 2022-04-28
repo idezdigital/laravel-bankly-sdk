@@ -217,7 +217,6 @@ it('should return true if contains scopes', function ($scopes) {
     $client->setScopes($scopes);
     $contains = $client->containsScope('events.read');
     expect($contains)->toBe(true);
-
 })->with([
     'array' => [['events.read', 'pix.cashout.create']],
     'string' => 'events.read pix.cashout.create',
@@ -240,7 +239,6 @@ it('should throw exception if there are more than 10 scopes ', function () {
     $client = new class (authenticate: false) extends BaseClient {};
     $scopes = array_fill(0, 11, 'teste');
     $client->setScopes($scopes);
-
 })->throws(InvalidArgumentException::class,  'Scopes must be less than 10');
 
 it('should throw exception if scopes is empty ', function () {

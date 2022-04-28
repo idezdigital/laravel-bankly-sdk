@@ -25,7 +25,6 @@ class Dict
 
             default => throw new InvalidDictKeyTypeException("Key {$key} invalid type.")
         };
-
     }
 
     /**

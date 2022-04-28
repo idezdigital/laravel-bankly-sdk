@@ -2,12 +2,12 @@
 
 namespace Idez\Bankly\Database\Factories;
 
-use Idez\Bankly\Data\P2P;
+use Idez\Bankly\Data\Transfer;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class P2PFactory extends Factory
 {
-    protected $model = P2P::class;
+    protected $model = Transfer::class;
 
     public function definition()
     {

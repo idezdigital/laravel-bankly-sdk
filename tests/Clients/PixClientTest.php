@@ -284,7 +284,7 @@ it('should refund pix and return object', function () {
 });
 
 it('should search dict key and return object', function (string $key) {
-    $cleanKey = \Idez\Bankly\Utils\Dict::cleanMask($key);
+    $cleanKey = \Idez\Bankly\Support\Dict::cleanMask($key);
 
     Http::fake([
        "https://api.sandbox.bankly.com.br/baas/pix/entries/{$cleanKey}" => Http::response(json_decode('{

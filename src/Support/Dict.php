@@ -1,6 +1,6 @@
 <?php
 
-namespace Idez\Bankly\Utils;
+namespace Idez\Bankly\Support;
 
 use Idez\Bankly\Enums\DictKeyType;
 use Idez\Bankly\Exceptions\InvalidDictKeyTypeException;

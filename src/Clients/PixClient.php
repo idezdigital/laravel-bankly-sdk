@@ -14,7 +14,7 @@ use Idez\Bankly\Enums\DictKeyType;
 use Idez\Bankly\Enums\InitializationType;
 use Idez\Bankly\Enums\RefundPixReason;
 use Idez\Bankly\Exceptions\InvalidDictKeyTypeException;
-use Idez\Bankly\Utils\Dict;
+use Idez\Bankly\Support\Dict;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Str;
 

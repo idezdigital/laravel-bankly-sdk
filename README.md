@@ -5,7 +5,7 @@
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/idezdigital/laravel-bankly-sdk/run-tests?label=tests)](https://github.com/idezdigital/laravel-bankly-sdk/actions?query=workflow%3Arun-tests+branch%3Amain)
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/idezdigital/laravel-bankly-sdk/Check%20&%20fix%20styling?label=code%20style)](https://github.com/idezdigital/laravel-bankly-sdk/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/idez/laravel-bankly-sdk.svg?style=flat-square)](https://packagist.org/packages/idez/laravel-bankly-sdk)
-[![Test Coverage](https://raw.githubusercontent.com/Hi-Folks/array/main/badge-coverage.svg)](https://packagist.org/packages/idezdigital/laravel-bankly-sdk)
+[![Test Coverage](https://raw.githubusercontent.com/idezdigital/laravel-bankly-sdk/main/badge-coverage.svg)](https://packagist.org/packages/idez/laravel-bankly-sdk)
 
 Unnofficial PHP class to access Bankly (by Acesso) API.
 

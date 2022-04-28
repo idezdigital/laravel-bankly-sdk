@@ -3,8 +3,7 @@
 use Idez\Bankly\Tests\TestCase;
 use PHPUnit\Framework\Assert;
 
-uses(TestCase::class)->in(__DIR__);
-uses()
+uses(TestCase::class)
     ->beforeEach(function () {
         Storage::fake();
         $this->cert = \Illuminate\Http\UploadedFile::fake()->create('cert.pem')->store('cert.pem');

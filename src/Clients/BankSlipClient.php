@@ -10,7 +10,6 @@ use Idez\Bankly\Data\Bankslip;
 use Idez\Bankly\Enums\BankslipType;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
-use Illuminate\Http\File;
 
 class BankSlipClient extends BaseClient
 {
@@ -62,8 +61,8 @@ class BankSlipClient extends BaseClient
     public function printBankslip(string $authorizationCode, ?string $temporaryPath = null): PromiseInterface|Response
     {
         $response = $this->client();
-        if(filled($temporaryPath)) {
-           $response->sink($temporaryPath);
+        if (filled($temporaryPath)) {
+            $response->sink($temporaryPath);
         }
 
 

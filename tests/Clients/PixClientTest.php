@@ -72,8 +72,6 @@ it('should create qrcode and returns base64', function () {
     ];
 
     Http::assertSent(function (\Illuminate\Http\Client\Request $request) use ($data) {
-        dump($data, $request->data());
-
         return $data === $request->data();
     });
 });

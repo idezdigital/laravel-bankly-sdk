@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Database\Factories;
 
-use Idez\Bankly\Resources\P2P;
+use Idez\Bankly\Data\P2P;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class P2PFactory extends Factory

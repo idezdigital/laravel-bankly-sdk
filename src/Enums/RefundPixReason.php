@@ -9,12 +9,4 @@ enum RefundPixReason: string
     case NotAccepted = 'MD06';
     case Dispute = 'RUTA';
     case IncorrectAmount = 'AM09';
-
-    public function availables(): array
-    {
-        return [
-            self::Fraud,
-            self::NotAccepted,
-        ];
-    }
 }

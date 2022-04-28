@@ -6,6 +6,7 @@ use Idez\Bankly\Clients\AccountClient;
 use Idez\Bankly\Clients\BankSlipClient;
 use Idez\Bankly\Clients\PixClient;
 use Idez\Bankly\Clients\TransferClient;
+use Illuminate\Support\Collection;
 
 class Bankly
 {
@@ -13,23 +14,33 @@ class Bankly
     public const ACESSO_COMPE = '332';
     public const ACESSO_NAME = 'Acesso Soluções de Pagamentos S.A';
 
+    public function __construct(
+        private readonly string|null          $certificatePath = null,
+        private readonly string|null          $privatePath = null,
+        private readonly string|null          $passphrase = null,
+        private readonly array|string|Collection|null $scopes = null,
+        private readonly array|Collection             $middlewares = [],
+        private readonly bool $authenticate = true
+    )
+    {}
+
     public function account()
     {
-        return app(AccountClient::class);
+        return new AccountClient($this->certificatePath, $this->privatePath, $this->passphrase, $this->scopes, $this->middlewares, $this->authenticate);
     }
 
     public function bankSlip()
     {
-        return app(BankSlipClient::class);
+        return new BankSlipClient($this->certificatePath, $this->privatePath, $this->passphrase, $this->scopes, $this->middlewares, $this->authenticate);
     }
 
     public function pix()
     {
-        return app(PixClient::class);
+        return new PixClient($this->certificatePath, $this->privatePath, $this->passphrase, $this->scopes, $this->middlewares, $this->authenticate);
     }
 
     public function transfer()
     {
-        return app(TransferClient::class);
+        return new TransferClient($this->certificatePath, $this->privatePath, $this->passphrase, $this->scopes, $this->middlewares, $this->authenticate);
     }
 }

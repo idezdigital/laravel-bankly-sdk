@@ -3,8 +3,8 @@
 namespace Idez\Bankly\Database\Factories;
 
 use Idez\Bankly\Enums\AccountType;
-use Idez\Bankly\Resources\Account;
-use Idez\Bankly\Resources\Holder;
+use Idez\Bankly\Data\Account;
+use Idez\Bankly\Data\Holder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AccountFactory extends Factory

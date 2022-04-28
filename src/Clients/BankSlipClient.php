@@ -5,11 +5,11 @@ namespace Idez\Bankly\Clients;
 use Carbon\Carbon;
 use Exception;
 use Idez\Bankly\Enums\BankslipType;
-use Idez\Bankly\Resources\Account;
-use Idez\Bankly\Resources\Bankslip;
+use Idez\Bankly\Data\Account;
+use Idez\Bankly\Data\Bankslip;
 use Illuminate\Http\Client\RequestException;
 
-class BankSlipClient extends BanklyClient
+class BankSlipClient extends BaseClient
 {
     /**
      * @param float $amount

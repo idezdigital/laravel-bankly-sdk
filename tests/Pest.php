@@ -19,7 +19,7 @@ uses()
             'bankly.secret' => 'test',
             'bankly.default_scopes' => ['test'],
         ]);
-    })->in('Clients');
+    })->in(__DIR__);
 
 expect()->extend('toBeBase64', function () {
     $this->toBeString();

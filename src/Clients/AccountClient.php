@@ -3,11 +3,11 @@
 namespace Idez\Bankly\Clients;
 
 use Carbon\Carbon;
-use Idez\Bankly\Resources\Account;
-use Idez\Bankly\Resources\AccountInfo;
+use Idez\Bankly\Data\Account;
+use Idez\Bankly\Data\AccountInfo;
 use Illuminate\Http\Client\RequestException;
 
-class AccountClient extends BanklyClient
+class AccountClient extends BaseClient
 {
     public function getEvents(Account $account, ?Carbon $from = null, ?Carbon $to = null, int $page = 1, int $pageSize = 100, bool $includeDetails = true): object
     {

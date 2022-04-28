@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @see \Idez\Bankly\Bankly
+ * @codeCoverageIgnore
  */
 class Bankly extends Facade
 {

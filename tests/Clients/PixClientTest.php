@@ -1,12 +1,12 @@
 <?php
 
-use Idez\Bankly\Clients\BanklyClient;
+use Idez\Bankly\Clients\BaseClient;
 use Idez\Bankly\Clients\PixClient;
-use Idez\Bankly\Resources\Pix\DictKey;
+use Idez\Bankly\Data\Pix\DictKey;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
-it('should PixClient be a children of BanklyClient', function () {
+it('should PixClient be a children of BaseClient', function () {
     Http::fake(
         ['https://auth-mtls.sandbox.bankly.com.br/oauth2/token' => Http::response(
             [
@@ -21,7 +21,7 @@ it('should PixClient be a children of BanklyClient', function () {
     );
 
     $client = new PixClient();
-    $this->assertInstanceOf(BanklyClient::class, $client);
+    $this->assertInstanceOf(BaseClient::class, $client);
 });
 
 it('should create qrcode and returns base64', function () {
@@ -50,7 +50,7 @@ it('should create qrcode and returns base64', function () {
      );
 
      expect($staticQrCode)
-         ->toBeInstanceOf(\Idez\Bankly\Resources\Pix\StaticQrCode::class)
+         ->toBeInstanceOf(\Idez\Bankly\Data\Pix\StaticQrCode::class)
          ->encodedValue
          ->toBeBase64()
          ->toBe($encoded);
@@ -76,10 +76,78 @@ it('should create qrcode and returns base64', function () {
      });
 });
 
+it('should execute pix and returns pix transfer with dictkey info', function () {
+    $encoded = base64_encode(Str::random(10));
+    $from = \Idez\Bankly\Data\Account::factory()->make();
+    $to = DictKey::factory()->make();
+
+    Http::fake([
+        'https://api.sandbox.bankly.com.br/pix/cash-out' => Http::response(
+            [
+                'amount' => 100.00,
+                'withdrawalAmount' => 0.0,
+                'changeAmount' => 0.0,
+                'description' => 'test',
+                'sender' => [
+                    'documentType' => 'CNPJ',
+                    'account' => [
+                        'branch' => '0001',
+                        'number' => '22750878',
+                        'type' => 'CHECKING',
+                    ],
+                    'bank' => [
+                        'ispb' => '13140088',
+                        'compe' => '332',
+                        'name' => 'Acesso Soluções de Pagamento S.A.',
+                    ],
+                    'documentNumber' => '14110585000107',
+                    'name' => 'Quatro',
+                ],
+                'recipient' => [
+                    'documentType' => 'CNPJ',
+                    'account' => [
+                        'branch' => '3395',
+                        'number' => '745065',
+                        'type' => 'CHECKING',
+                    ],
+                    'bank' => [
+                        'ispb' => '60746948',
+                        'compe' => '237',
+                        'name' => 'Bco Bradesco S.A.',
+                    ],
+                    'documentNumber' => '00422351000603',
+                    'name' => 'Loja Exemplo',
+                ],
+                'authenticationCode' => 'dbbfd512-ede4-4841-9fce-bfbc70bfb4ef',
+
+            ],200)
+    ]);
+
+    $client = new PixClient(authenticate: false);
+
+
+    $transfer = $client->executePix(
+        from: $from,
+        to: $to,
+        amount: 100.00,
+        description: 'test'
+    );
+
+    expect($transfer)
+        ->toBeInstanceOf(\Idez\Bankly\Data\Pix\Transfer::class)
+        ->amount
+        ->toBe(100.00)
+        ->description
+        ->toBe('test')
+        ->authenticationCode
+        ->toBe('dbbfd512-ede4-4841-9fce-bfbc70bfb4ef');
+
+});
+
 it('should execute pix and returns pix transfer', function () {
     $encoded = base64_encode(Str::random(10));
-    $from = \Idez\Bankly\Resources\Account::factory()->make();
-    $to = \Idez\Bankly\Resources\Account::factory()->make();
+    $from = \Idez\Bankly\Data\Account::factory()->make();
+    $to = \Idez\Bankly\Data\Account::factory()->make();
 
     Http::fake([
         'https://api.sandbox.bankly.com.br/pix/cash-out' => Http::response(
@@ -134,7 +202,7 @@ it('should execute pix and returns pix transfer', function () {
     );
 
     expect($transfer)
-        ->toBeInstanceOf(\Idez\Bankly\Resources\Pix\Transfer::class)
+        ->toBeInstanceOf(\Idez\Bankly\Data\Pix\Transfer::class)
         ->amount
         ->toBe(100.00)
         ->description
@@ -192,7 +260,7 @@ it('should refund pix and return object', function (){
     $client = new PixClient(scopes: ['events.read, pix.cashout.create'], authenticate: false);
     $refundPix = $client
         ->refundPix(
-        from: \Idez\Bankly\Resources\Account::make([
+        from: \Idez\Bankly\Data\Account::make([
             'branch' => '3395',
             'number' => '745065',
             'type' => 'CHECKING',
@@ -202,7 +270,7 @@ it('should refund pix and return object', function (){
     );
 
     expect($refundPix)
-        ->toBeInstanceOf(\Idez\Bankly\Resources\Refund::class)
+        ->toBeInstanceOf(\Idez\Bankly\Data\Refund::class)
         ->amount
         ->toBe(100.00)
         ->description
@@ -250,7 +318,7 @@ it('should search dict key and return object', function (string $key){
 
 
 it('should returns all dict keys', function (){
-    $account = \Idez\Bankly\Resources\Account::make([
+    $account = \Idez\Bankly\Data\Account::make([
         'branch' => '3395',
         'number' => '745065',
         'type' => 'CHECKING',
@@ -276,5 +344,5 @@ it('should returns all dict keys', function (){
     expect($dictKeys)
         ->toBeArray()
         ->each
-        ->toBeInstanceOf(\Idez\Bankly\Resources\ValueType::class);
+        ->toBeInstanceOf(\Idez\Bankly\Data\ValueType::class);
 });

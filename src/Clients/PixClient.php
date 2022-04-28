@@ -109,7 +109,7 @@ class PixClient extends BaseClient
                     'compe' => $account->bank->compe,
                 ],
                 'name' => $account->holder?->name ?? 'Não identificado',
-                'documentNumber' => $account->document ?? $account->holder?->documentNumber ?? $to->holder->documentNumber
+                'documentNumber' => $account->document ?? $account->holder?->documentNumber ?? $to->holder->documentNumber,
             ];
         }
 

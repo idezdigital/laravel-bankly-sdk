@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use InvalidArgumentException;
-use JetBrains\PhpStorm\ArrayShape;
 
 abstract class BaseClient
 {

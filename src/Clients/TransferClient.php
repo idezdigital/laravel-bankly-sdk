@@ -11,7 +11,7 @@ class TransferClient extends BaseClient
 {
     public function p2p(Account $from, Account $to, float $amount, ?string $description = null, AccountType $type = AccountType::Checking): Transfer
     {
-        $response = $this->client()->throw()->post('/fund-transfers', [
+        $response = $this->client()->post('/fund-transfers', [
             'amount' => round($amount * 100),
             'description' => $description,
             'sender' => [
@@ -28,7 +28,7 @@ class TransferClient extends BaseClient
                 'document' => $to->document,
                 'type' => $type->value,
             ],
-        ])->json();
+        ])->throw()->json();
 
         return new Transfer($response);
     }

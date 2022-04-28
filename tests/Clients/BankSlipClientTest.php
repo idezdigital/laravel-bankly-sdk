@@ -7,10 +7,10 @@ it('should can create bank slip', function () {
         'https://api.sandbox.bankly.com.br/bankslip' => Http::response([
             'account' => [
                 'number' => '197564',
-                'branch' => '0001'
+                'branch' => '0001',
             ],
-            'authenticationCode' => 'cb78b121-e891-4ccf-9f4d-8a18f6edb1c9'
-        ])
+            'authenticationCode' => 'cb78b121-e891-4ccf-9f4d-8a18f6edb1c9',
+        ]),
     ]);
 
     $bankSlip = $bankSlipClient->createBankslip(
@@ -29,17 +29,19 @@ it('should can generate bankslip', function () {
     $code = Str::uuid()->toString();
 
     $file = \Illuminate\Http\UploadedFile::fake()->createWithContent(
-        'bankslip.pdf', "%PDF-1.4
+        'bankslip.pdf',
+        "%PDF-1.4
         1 0 obj
         <<
         /Title (��Boleto - Bankly)
         /Creator (��wkhtmltopdf 0.12.4)
         /Producer (��Qt 4.8.7)
-        /CreationDate (D:20220412214427-03'00')")
+        /CreationDate (D:20220412214427-03'00')"
+    )
     ->store('bankslips');
 
     Http::fake([
-        "https://api.sandbox.bankly.com.br/bankslip/{$code}/pdf*" => Http::response(Storage::get($file))
+        "https://api.sandbox.bankly.com.br/bankslip/{$code}/pdf*" => Http::response(Storage::get($file)),
     ]);
 
     $bankSlip = $bankSlipClient->printBankslip($code);
@@ -51,17 +53,19 @@ it('should can generate bankslip with temporary file', function () {
     $code = Str::uuid()->toString();
 
     $file = \Illuminate\Http\UploadedFile::fake()->createWithContent(
-        'bankslip.pdf', "%PDF-1.4
+        'bankslip.pdf',
+        "%PDF-1.4
         1 0 obj
         <<
         /Title (��Boleto - Bankly)
         /Creator (��wkhtmltopdf 0.12.4)
         /Producer (��Qt 4.8.7)
-        /CreationDate (D:20220412214427-03'00')")
+        /CreationDate (D:20220412214427-03'00')"
+    )
         ->store('bankslips');
 
     Http::fake([
-        "https://api.sandbox.bankly.com.br/bankslip/{$code}/pdf*" => Http::response(Storage::get($file))
+        "https://api.sandbox.bankly.com.br/bankslip/{$code}/pdf*" => Http::response(Storage::get($file)),
     ]);
 
     $bankSlip = $bankSlipClient->printBankslip($code, \Illuminate\Support\Facades\Storage::path('temp/boleto.pdf'));
@@ -148,7 +152,7 @@ it('should returns bankslip', function () {
                     'type' => 'Free',
                     'value' => 0.0,
                 ],
-        ])
+        ]),
     ]);
     $bankSlipClient = new \Idez\Bankly\Clients\BankSlipClient(authenticate: false);
     $code = Str::uuid()->toString();

@@ -45,14 +45,11 @@ class AccountClient extends BaseClient
         return array_map(fn ($event) => new Event($event), $events);
     }
 
-    /**
-     * @throws RequestException
-     */
-    public function getAccountData(string $accountNumber): AccountInfo
+    public function getAccountData(string $accountNumber, $includeBalance = true): AccountInfo
     {
         $responseObj = $this->client()->get("/accounts/{$accountNumber}", [
-            'includeBalance' => 'true',
-        ])->throw()->object();
+            'includeBalance' => $includeBalance,
+        ])->json();
 
         return new AccountInfo($responseObj);
     }
@@ -62,6 +59,6 @@ class AccountClient extends BaseClient
      */
     public function getAccountBalance(string $accountNumber): float
     {
-        return $this->getAccountData($accountNumber)->available->amount;
+        return $this->getAccountData($accountNumber, true)->available->amount;
     }
 }

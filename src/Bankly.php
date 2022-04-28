@@ -21,8 +21,8 @@ class Bankly
         private readonly array|string|Collection|null $scopes = null,
         private readonly array|Collection             $middlewares = [],
         private readonly bool $authenticate = true
-    )
-    {}
+    ) {
+    }
 
     public function account()
     {

@@ -3,7 +3,6 @@
 namespace Idez\Bankly\Data\Pix;
 
 use Idez\Bankly\Data\Resource;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Transfer extends Resource
 {

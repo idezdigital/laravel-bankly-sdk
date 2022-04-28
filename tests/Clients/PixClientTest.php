@@ -49,7 +49,7 @@ it('should create qrcode and returns base64', function () {
         singlePayment: false
     );
 
-     expect($staticQrCode)
+    expect($staticQrCode)
          ->toBeInstanceOf(\Idez\Bankly\Data\Pix\StaticQrCode::class)
          ->encodedValue
          ->toBeBase64()
@@ -120,7 +120,9 @@ it('should execute pix and returns pix transfer with dictkey info', function () 
                 ],
                 'authenticationCode' => 'dbbfd512-ede4-4841-9fce-bfbc70bfb4ef',
 
-            ],200)
+            ],
+            200
+        ),
     ]);
 
     $client = new PixClient(authenticate: false);
@@ -141,7 +143,6 @@ it('should execute pix and returns pix transfer with dictkey info', function () 
         ->toBe('test')
         ->authenticationCode
         ->toBe('dbbfd512-ede4-4841-9fce-bfbc70bfb4ef');
-
 });
 
 it('should execute pix and returns pix transfer', function () {
@@ -263,7 +264,7 @@ it('should refund pix and return object', function () {
     $client = new PixClient(scopes: ['events.read, pix.cashout.create'], authenticate: false);
     $refundPix = $client
         ->refundPix(
-        from: \Idez\Bankly\Data\Account::make([
+            from: \Idez\Bankly\Data\Account::make([
             'branch' => '3395',
             'number' => '745065',
             'type' => 'CHECKING',
@@ -320,7 +321,7 @@ it('should search dict key and return object', function (string $key) {
 ]);
 
 
-it('should returns all dict keys', function (){
+it('should returns all dict keys', function () {
     $account = \Idez\Bankly\Data\Account::make([
         'branch' => '3395',
         'number' => '745065',

@@ -4,9 +4,9 @@ namespace Idez\Bankly\Clients;
 
 use Carbon\Carbon;
 use Exception;
-use Idez\Bankly\Enums\BankslipType;
 use Idez\Bankly\Data\Account;
 use Idez\Bankly\Data\Bankslip;
+use Idez\Bankly\Enums\BankslipType;
 use Illuminate\Http\Client\RequestException;
 
 class BankSlipClient extends BaseClient

@@ -19,4 +19,3 @@ it('should returns bankslip client', function () {
     $bankly = (new Idez\Bankly\Bankly(authenticate: false))->bankslip();
     expect($bankly)->toBeInstanceOf(\Idez\Bankly\Clients\BankSlipClient::class);
 });
-

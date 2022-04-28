@@ -3,17 +3,17 @@
 namespace Idez\Bankly\Clients;
 
 use Idez\Bankly\Bankly;
-use Idez\Bankly\Enums\AccountType;
-use Idez\Bankly\Enums\DictKeyType;
-use Idez\Bankly\Enums\InitializationType;
-use Idez\Bankly\Enums\RefundPixReason;
-use Idez\Bankly\Exceptions\InvalidDictKeyTypeException;
 use Idez\Bankly\Data\Account;
 use Idez\Bankly\Data\Pix\DictKey;
 use Idez\Bankly\Data\Pix\StaticQrCode;
 use Idez\Bankly\Data\Pix\Transfer;
 use Idez\Bankly\Data\Refund;
 use Idez\Bankly\Data\ValueType;
+use Idez\Bankly\Enums\AccountType;
+use Idez\Bankly\Enums\DictKeyType;
+use Idez\Bankly\Enums\InitializationType;
+use Idez\Bankly\Enums\RefundPixReason;
+use Idez\Bankly\Exceptions\InvalidDictKeyTypeException;
 use Idez\Bankly\Utils\Dict;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Str;

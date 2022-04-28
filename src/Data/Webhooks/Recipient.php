@@ -3,8 +3,8 @@
 namespace Idez\Bankly\Data\Webhooks;
 
 use Idez\Bankly\Data\Account;
-use Idez\Bankly\Data\ValueType;
 use Idez\Bankly\Data\Data;
+use Idez\Bankly\Data\ValueType;
 
 /**
  * Todo: merge to Idez\Bankly\Data\Account

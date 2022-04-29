@@ -139,7 +139,7 @@ class PixClient extends BaseClient
             ],
             'authenticationCode' => $authenticationCode,
             'amount' => $amount,
-            'refundCode' => $refundCode,
+            'refundCode' => $refundCode->value,
         ])->throw();
 
         return new Refund($response->json());

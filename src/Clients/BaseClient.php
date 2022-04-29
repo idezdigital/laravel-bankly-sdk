@@ -42,8 +42,7 @@ abstract class BaseClient
         array|string|Collection|null $scopes = null,
         array|Collection             $middlewares = [],
         bool                         $authenticate = true
-    )
-    {
+    ) {
         $this->certificatePath ??= config('bankly.mTls.certificate_path');
         $this->privatePath ??= config('bankly.mTls.private_key_path');
         $this->passphrase ??= config('bankly.mTls.passphrase');

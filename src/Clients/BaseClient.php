@@ -41,8 +41,9 @@ abstract class BaseClient
         private string|null          $passphrase = null,
         array|string|Collection|null $scopes = null,
         array|Collection             $middlewares = [],
-        bool $authenticate = true
-    ) {
+        bool                         $authenticate = true
+    )
+    {
         $this->certificatePath ??= config('bankly.mTls.certificate_path');
         $this->privatePath ??= config('bankly.mTls.private_key_path');
         $this->passphrase ??= config('bankly.mTls.passphrase');
@@ -107,8 +108,10 @@ abstract class BaseClient
     {
         $cachedToken = $this->getCachedToken();
 
+        $baseUrl = config('bankly.env') === self::ENV_PRODUCTION ? "https://auth.{$this->baseUrl}" : "https://auth-mtls.{$this->baseUrl}";
+
         if (blank($cachedToken)) {
-            $request = Http::baseUrl("https://auth-mtls.{$this->baseUrl}")
+            $request = Http::baseUrl($baseUrl)
                 ->withHeaders(['api-version' => self::API_VERSION])
                 ->withOptions($this->getCerts());
 

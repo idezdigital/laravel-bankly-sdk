@@ -8,7 +8,7 @@ it('should throws if certificate path is null', function () {
     config(['bankly.mTls.certificate_path' => null]);
     new class () extends BaseClient {
     };
-})->throws(Illuminate\Validation\ValidationException::class,);
+})->throws(Illuminate\Validation\ValidationException::class, );
 
 it('should throws if private key path is null', function () {
     config(['bankly.mTls.private_key_path' => null]);
@@ -20,7 +20,7 @@ it('should throws if passphrase is null', function () {
     config(['bankly.mTls.passphrase' => null]);
     new class () extends BaseClient {
     };
-})->throws(Illuminate\Validation\ValidationException::class,);
+})->throws(Illuminate\Validation\ValidationException::class, );
 
 
 it('should throws if certificate file not exists', function () {

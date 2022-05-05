@@ -261,7 +261,7 @@ it('should refund pix and return object', function () {
         ),
     ]);
 
-    $client = new PixClient(scopes: ['events.read, pix.cashout.create'],);
+    $client = new PixClient(scopes: ['events.read, pix.cashout.create'], );
     $refundPix = $client
         ->refundPix(
             from: \Idez\Bankly\Data\Account::make([
@@ -307,7 +307,7 @@ it('should search dict key and return object', function (string $key) {
     }', true)),
     ]);
 
-    $client = new PixClient(scopes: ['pix.entries.read'],);
+    $client = new PixClient(scopes: ['pix.entries.read'], );
     $dict = $client->searchDictKey($key, 'cpf');
 
     expect($dict)
@@ -341,7 +341,7 @@ it('should returns all dict keys', function () {
         ]),
     ]);
 
-    $client = new PixClient(scopes: ['pix.entries.read'],);
+    $client = new PixClient(scopes: ['pix.entries.read'], );
     $dictKeys = $client
         ->listDictKeys($account->number);
 

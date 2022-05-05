@@ -20,8 +20,7 @@ class Bankly
         private readonly string|null $passphrase = null,
         private readonly array|string|Collection|null $scopes = null,
         private readonly array|Collection $middlewares = [],
-    )
-    {
+    ) {
     }
 
     public function account()

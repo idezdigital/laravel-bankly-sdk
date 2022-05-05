@@ -41,7 +41,6 @@ abstract class BaseClient
         private string|null          $passphrase = null,
         array|string|Collection|null $scopes = null,
         array|Collection             $middlewares = [],
-        bool                         $authenticate = true
     ) {
         $this->certificatePath ??= config('bankly.mTls.certificate_path');
         $this->privatePath ??= config('bankly.mTls.private_key_path');
@@ -67,10 +66,6 @@ abstract class BaseClient
                 ],
             ]
         )->validate();
-
-        if ($authenticate) {
-            $this->authenticate();
-        }
     }
 
     public function getEnvUrl(): string

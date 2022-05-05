@@ -31,7 +31,7 @@ it('should create qrcode and returns base64', function () {
         'https://api.sandbox.bankly.com.br/pix/qrcodes' => Http::response(['encodedValue' => $encoded], 200),
     ]);
 
-    $pix = new PixClient(authenticate: false);
+    $pix = new PixClient();
     $keyValue = Str::uuid()->toString();
     $conciliationId = Str::random();
     $name = \Pest\Faker\faker()->company;
@@ -50,10 +50,10 @@ it('should create qrcode and returns base64', function () {
     );
 
     expect($staticQrCode)
-         ->toBeInstanceOf(\Idez\Bankly\Data\Pix\StaticQrCode::class)
-         ->encodedValue
-         ->toBeBase64()
-         ->toBe($encoded);
+        ->toBeInstanceOf(\Idez\Bankly\Data\Pix\StaticQrCode::class)
+        ->encodedValue
+        ->toBeBase64()
+        ->toBe($encoded);
 
 
     $data = [
@@ -125,7 +125,7 @@ it('should execute pix and returns pix transfer with dictkey info', function () 
         ),
     ]);
 
-    $client = new PixClient(authenticate: false);
+    $client = new PixClient();
 
 
     $transfer = $client->executePix(
@@ -189,12 +189,12 @@ it('should execute pix and returns pix transfer', function () {
                 ],
                 'authenticationCode' => 'dbbfd512-ede4-4841-9fce-bfbc70bfb4ef',
 
-        ],
+            ],
             200
         ),
     ]);
 
-    $client = new PixClient(authenticate: false);
+    $client = new PixClient();
 
 
     $transfer = $client->executePix(
@@ -261,14 +261,14 @@ it('should refund pix and return object', function () {
         ),
     ]);
 
-    $client = new PixClient(scopes: ['events.read, pix.cashout.create'], authenticate: false);
+    $client = new PixClient(scopes: ['events.read, pix.cashout.create'],);
     $refundPix = $client
         ->refundPix(
             from: \Idez\Bankly\Data\Account::make([
-            'branch' => '3395',
-            'number' => '745065',
-            'type' => 'CHECKING',
-        ]),
+                'branch' => '3395',
+                'number' => '745065',
+                'type' => 'CHECKING',
+            ]),
             authenticationCode: $authenticationCode,
             amount: 100.00,
         );
@@ -287,7 +287,7 @@ it('should search dict key and return object', function (string $key) {
     $cleanKey = \Idez\Bankly\Support\Dict::cleanMask($key);
 
     Http::fake([
-       "https://api.sandbox.bankly.com.br/baas/pix/entries/{$cleanKey}" => Http::response(json_decode('{
+        "https://api.sandbox.bankly.com.br/baas/pix/entries/{$cleanKey}" => Http::response(json_decode('{
         "endToEndId": "8e2034e3fa0d457096fdc7ddeb2e1b76",
         "addressingKey": {
             "type": "EVP",
@@ -305,9 +305,9 @@ it('should search dict key and return object', function (string $key) {
         "createdAt": "2021-06-23T15:10:12.33+00:00",
         "ownedAt": "2021-06-23T15:10:12.33+00:00"
     }', true)),
-   ]);
+    ]);
 
-    $client = new PixClient(scopes: ['pix.entries.read'], authenticate: false);
+    $client = new PixClient(scopes: ['pix.entries.read'],);
     $dict = $client->searchDictKey($key, 'cpf');
 
     expect($dict)
@@ -341,7 +341,7 @@ it('should returns all dict keys', function () {
         ]),
     ]);
 
-    $client = new PixClient(scopes: ['pix.entries.read'], authenticate: false);
+    $client = new PixClient(scopes: ['pix.entries.read'],);
     $dictKeys = $client
         ->listDictKeys($account->number);
 

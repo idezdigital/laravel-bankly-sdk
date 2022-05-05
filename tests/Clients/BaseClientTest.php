@@ -6,35 +6,41 @@ use Illuminate\Support\Facades\Cache;
 
 it('should throws if certificate path is null', function () {
     config(['bankly.mTls.certificate_path' => null]);
-    new class (authenticate: false) extends BaseClient {};
-})->throws(Illuminate\Validation\ValidationException::class, );
+    new class () extends BaseClient {
+    };
+})->throws(Illuminate\Validation\ValidationException::class,);
 
 it('should throws if private key path is null', function () {
     config(['bankly.mTls.private_key_path' => null]);
-    new class (authenticate: false) extends BaseClient {};
+    new class () extends BaseClient {
+    };
 })->throws(Illuminate\Validation\ValidationException::class);
 
 it('should throws if passphrase is null', function () {
     config(['bankly.mTls.passphrase' => null]);
-    new class (authenticate: false) extends BaseClient {};
-})->throws(Illuminate\Validation\ValidationException::class, );
+    new class () extends BaseClient {
+    };
+})->throws(Illuminate\Validation\ValidationException::class,);
 
 
 it('should throws if certificate file not exists', function () {
     config(['bankly.mTls.certificate_path' => 'batatinha.cert']);
-    new class (authenticate: false) extends BaseClient {};
+    new class () extends BaseClient {
+    };
 })->throws(Illuminate\Validation\ValidationException::class);
 
 
 it('should throws if private key file not exists', function () {
     config(['bankly.mTls.private_key_path' => 'batatinha.pem']);
-    new class (authenticate: false) extends BaseClient {};
+    new class () extends BaseClient {
+    };
 })->throws(Illuminate\Validation\ValidationException::class);
 
 
 it('should passes if passphrase is valid', function () {
     config(['bankly.mTls.passphrase' => 'cx@123aacx@123Aacx@123!a#%@123a*a()x@123aacx@123aacx@123aacx@123aa']);
-    new class (authenticate: false) extends BaseClient {};
+    new class () extends BaseClient {
+    };
 
     $this->expectNotToPerformAssertions();
 });
@@ -42,7 +48,8 @@ it('should passes if passphrase is valid', function () {
 
 it('should throws if passphrase is invalid', function (string $passphrase) {
     config(['bankly.mTls.passphrase' => $passphrase]);
-    new class () extends BaseClient {};
+    new class () extends BaseClient {
+    };
 })->throws(Illuminate\Validation\ValidationException::class)
     ->with([
         'a@C', // Below the minimum characters
@@ -55,17 +62,18 @@ it('should can authenticate with bankly and saved token in cache', function () {
     Http::fake(
         ['https://auth-mtls.sandbox.bankly.com.br/oauth2/token' => Http::response(
             [
-            'token_type' => 'Bearer',
-            'access_token' => 'token',
-            'scope' => 'test',
-            'claims' => 'company_key',
-            'expires_in' => 3600,
-        ],
+                'token_type' => 'Bearer',
+                'access_token' => 'token',
+                'scope' => 'test',
+                'claims' => 'company_key',
+                'expires_in' => 3600,
+            ],
             200
         )]
     );
 
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     $client->authenticate();
     $token = $client->getCachedToken();
     expect($token)->toBe('token');
@@ -86,7 +94,9 @@ it('should throw exception on try authenticate with bankly request not successfu
         )]
     );
 
-    new class () extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
+    $client->authenticate();
 })->throws(RequestException::class);
 
 it(/**
@@ -94,7 +104,8 @@ it(/**
  */ /**
  * @throws \Psr\SimpleCache\InvalidArgumentException
  */ 'should returns token from cache', function () {
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     Cache::set('bankly-token', 'teste');
 
     $token = $client->getCachedToken();
@@ -103,14 +114,16 @@ it(/**
 
 it('should returns env url if sandbox', function (string $env) {
     config(['bankly.env' => $env]);
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     $url = $client->getEnvUrl();
     expect($url)->toBe('sandbox.bankly.com.br');
 })->with(['staging', 'local', 'testing']);
 
 it('should returns env url if production', function () {
     config(['bankly.env' => 'production']);
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     $url = $client->getEnvUrl();
     expect($url)->toBe('bankly.com.br');
 });
@@ -131,7 +144,9 @@ it('should send the correct information in the authentication request', function
 
     config(['bankly.oauth2.client_id' => 'client_id']);
     config(['bankly.default_scopes' => 'scope1 scope2']);
-    new class () extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
+    $client->authenticate();
     Http::assertSent(function (\Illuminate\Http\Client\Request $request) {
         return $request->hasHeader('Content-Type')
             && $request->header('Content-Type')[0] === 'application/x-www-form-urlencoded'
@@ -160,7 +175,8 @@ it('should returns token object on Authentication', function () {
         )]
     );
 
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     Cache::set('bankly-token', null);
     $url = $client->authenticate();
     expect($url)->toBeInstanceOf(\Idez\Bankly\Data\Token::class)->access_token->toBe('token');
@@ -180,7 +196,8 @@ it('should returns token object on Authentication if cache filled', function () 
         )]
     );
 
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     Cache::set('bankly-token', 'teste');
     $url = $client->authenticate();
     expect($url)->toBeInstanceOf(\Idez\Bankly\Data\Token::class)
@@ -191,7 +208,8 @@ it('should returns token object on Authentication if cache filled', function () 
 });
 
 it('can push middleware on client', function () {
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     $clientAfterMiddleware = $client->withMiddleware(function ($request, $next) {
         $request->headers->set('teste', 'teste');
 
@@ -202,7 +220,8 @@ it('can push middleware on client', function () {
 });
 
 it('should normalize scopes', function ($scopes) {
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     $normalizedScopes = $client->normalizeScopes($scopes);
     expect($normalizedScopes)->toBe('events.read pix.cashout.create');
 })->with([
@@ -213,7 +232,8 @@ it('should normalize scopes', function ($scopes) {
 
 
 it('should return true if contains scopes', function ($scopes) {
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     $client->setScopes($scopes);
     $contains = $client->containsScope('events.read');
     expect($contains)->toBe(true);
@@ -224,7 +244,8 @@ it('should return true if contains scopes', function ($scopes) {
 ]);
 
 it('should return list of scopes', function ($scopes) {
-    $client = new class (authenticate: false, ) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     $client->setScopes($scopes);
     $returnedScopes = $client->getScopes();
 
@@ -236,14 +257,16 @@ it('should return list of scopes', function ($scopes) {
 ]);
 
 it('should throw exception if there are more than 10 scopes ', function () {
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     $scopes = array_fill(0, 11, 'teste');
     $client->setScopes($scopes);
-})->throws(InvalidArgumentException::class,  'Scopes must be less than 10');
+})->throws(InvalidArgumentException::class, 'Scopes must be less than 10');
 
 it('should throw exception if scopes is empty ', function () {
-    $client = new class (authenticate: false) extends BaseClient {};
+    $client = new class () extends BaseClient {
+    };
     $client->setScopes([]);
 })
     ->with([[], '', collect([])])
-    ->throws(InvalidArgumentException::class,  'Scopes must be a non-empty string or collection');
+    ->throws(InvalidArgumentException::class, 'Scopes must be a non-empty string or collection');

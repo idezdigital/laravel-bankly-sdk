@@ -65,7 +65,7 @@ it('should returns all events', function () {
         ]),
     ]);
 
-    $accountClient = new \Idez\Bankly\Clients\AccountClient(authenticate: false);
+    $accountClient = new \Idez\Bankly\Clients\AccountClient();
     $events = $accountClient->getEvents(\Idez\Bankly\Data\Account::factory()->make());
     expect($events)
         ->toBeArray()
@@ -95,7 +95,7 @@ it('should returns account info with balance', function () {
             'number' => '210773',
         ]),
     ]);
-    $accountClient = new \Idez\Bankly\Clients\AccountClient(authenticate: false);
+    $accountClient = new \Idez\Bankly\Clients\AccountClient();
     $data = $accountClient->getAccountData('210773');
     expect($data)
         ->toBeInstanceOf(\Idez\Bankly\Data\AccountInfo::class);
@@ -110,7 +110,7 @@ it('should returns account info without balance', function () {
         ]),
     ]);
 
-    $accountClient = new \Idez\Bankly\Clients\AccountClient(authenticate: false);
+    $accountClient = new \Idez\Bankly\Clients\AccountClient();
     $data = $accountClient->getAccountData('210773');
     expect($data)
         ->toBeInstanceOf(\Idez\Bankly\Data\AccountInfo::class);
@@ -139,7 +139,7 @@ it('should returns account balance', function () {
         ]),
     ]);
 
-    $accountClient = new \Idez\Bankly\Clients\AccountClient(authenticate: false);
+    $accountClient = new \Idez\Bankly\Clients\AccountClient();
     $balance = $accountClient->getAccountBalance('210773');
 
     expect($balance)
@@ -209,7 +209,7 @@ it('should returns events with beginDateTime', function () {
             ],
         ]),
     ]);
-    $accountClient = new \Idez\Bankly\Clients\AccountClient(authenticate: false);
+    $accountClient = new \Idez\Bankly\Clients\AccountClient();
     $events = $accountClient->getEvents(\Idez\Bankly\Data\Account::factory()->make(), from: now()->subDays(1));
     expect($events)
         ->toBeArray()
@@ -281,7 +281,7 @@ it('should returns events with endDateTime', function () {
             ],
         ]),
     ]);
-    $accountClient = new \Idez\Bankly\Clients\AccountClient(authenticate: false);
+    $accountClient = new \Idez\Bankly\Clients\AccountClient();
     $events = $accountClient->getEvents(\Idez\Bankly\Data\Account::factory()->make(), to: now());
     expect($events)
         ->toBeArray()

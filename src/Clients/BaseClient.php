@@ -26,6 +26,7 @@ abstract class BaseClient
 
     public function __construct(array|Collection $middlewares = [])
     {
+        $this->middlewares = collect($middlewares);
     }
 
     public function getEnvUrl(): string

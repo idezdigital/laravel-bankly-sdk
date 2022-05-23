@@ -41,8 +41,7 @@ class Bankly
         private string|null                  $passphrase = null,
         private array|string|Collection|null $scopes = null,
         private array|Collection             $middlewares = [],
-    )
-    {
+    ) {
         $this->certificatePath ??= config('bankly.mTls.certificate_path');
         $this->privatePath ??= config('bankly.mTls.private_key_path');
         $this->passphrase ??= config('bankly.mTls.passphrase');

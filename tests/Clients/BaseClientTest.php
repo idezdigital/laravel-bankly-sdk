@@ -29,4 +29,3 @@ it('can push middleware on client', function () {
 
     expect($clientAfterMiddleware)->toBeInstanceOf(BaseClient::class);
 });
-

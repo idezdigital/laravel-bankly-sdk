@@ -5,7 +5,6 @@ namespace Idez\Bankly\Http\Middleware;
 use App\Exceptions\BanklySignatureMismatchException;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class HmacSigned
 {
@@ -20,22 +19,25 @@ class HmacSigned
      */
     public function handle(Request $request, Closure $next, ...$guards)
     {
-        $encodedString = implode('#', [
-            $request->header('PublicKey'),
-            $request->getUri(),
-            $request->header('RequestTimestamp'),
-            $request->header('Nonce'),
-            base64_encode($request->getContent()),
-        ]);
+        $separator = '&';
+        $publicKey = $request->header('PublicKey');
+        $requestUriEncoded = strtolower(urlencode($request->getUri()));
+        $requestTimestamp = $request->header('RequestTimestamp');
+        $nonce = $request->header('Nonce');
+        $requestBodyBase64 = base64_encode($request->getContent());
+
+        $preHashedString = "{$publicKey}{$separator}{$requestUriEncoded}{$separator}{$requestTimestamp}{$separator}{$nonce}{$separator}{$requestBodyBase64}";
 
         $hmacSignature = base64_encode(hash_hmac(
             algo: 'sha256',
-            data: $encodedString,
-            key: config('bankly.webhooks.hmac_salt'),
+            data: $preHashedString,
+            key: base64_decode('dGVzdGU='),
             binary: true
         ));
 
-        $hmacToken = Str::of($request->header('Authorization'))->substr(5)->trim()->__toString();
+
+        $hmacToken = trim(substr($request->header('Authorization'), 5));
+
         if ($hmacToken !== $hmacSignature) {
             throw new BanklySignatureMismatchException();
         }

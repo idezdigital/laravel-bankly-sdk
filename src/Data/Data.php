@@ -2,6 +2,7 @@
 
 namespace Idez\Bankly\Data;
 
+use App\Models\Struct;
 use Idez\Bankly\Traits\Makeable;
 use Psr\Http\Message\ResponseInterface;
 
@@ -82,6 +83,10 @@ abstract class Data implements \JsonSerializable
         $array = [];
 
         foreach ($vars as $key => $value) {
+            if ($value instanceof Struct) {
+                $value = $value->toArray();
+            }
+
             $array[$key] = $value;
         }
 

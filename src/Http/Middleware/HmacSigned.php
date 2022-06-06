@@ -25,7 +25,7 @@ class HmacSigned
             $request->getUri(),
             $request->header('RequestTimestamp'),
             $request->header('Nonce'),
-            base64_encode($request->getContent())
+            base64_encode($request->getContent()),
         ]);
 
         $hmacSignature = base64_encode(hash_hmac(

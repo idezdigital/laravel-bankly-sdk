@@ -31,7 +31,7 @@ class HmacSigned
         $hmacSignature = base64_encode(hash_hmac(
             algo: 'sha256',
             data: $preHashedString,
-            key: base64_decode('dGVzdGU='),
+            key: config('bankly.webhooks.hmac_salt'),
             binary: true
         ));
 

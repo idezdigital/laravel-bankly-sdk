@@ -58,7 +58,7 @@ return [
 
 ```php
 $bankly = new Idez\Bankly();
-$qrCodeObject =  $bankly->pix()->$pix->createStaticQrCode(
+$qrCodeObject =  $bankly->pix()->createStaticQrCode(
         keyType: 'evp',
         keyValue: 'd8b3c33f-9bc9-4444-8716-d7a6d243e55e',
         amount: 100.00,

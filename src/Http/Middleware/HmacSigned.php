@@ -2,8 +2,8 @@
 
 namespace Idez\Bankly\Http\Middleware;
 
-use Idez\Bankly\Exceptions\BanklySignatureMismatchException;
 use Closure;
+use Idez\Bankly\Exceptions\BanklySignatureMismatchException;
 use Illuminate\Http\Request;
 
 class HmacSigned

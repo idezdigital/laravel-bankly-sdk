@@ -19,7 +19,7 @@
     verbose="true"
 >
     <testsuites>
-        <testsuite name="VendorName Test Suite">
+        <testsuite name="Idez Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
@@ -30,10 +30,13 @@
         <report>
             <html outputDirectory="build/coverage"/>
             <text outputFile="build/coverage.txt"/>
-            <clover outputFile="build/logs/clover.xml"/>
+            <clover outputFile="clover.xml"/>
         </report>
     </coverage>
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>
+    <php>
+        <server name="XDEBUG_MODE" value="coverage"/>
+    </php>
 </phpunit>

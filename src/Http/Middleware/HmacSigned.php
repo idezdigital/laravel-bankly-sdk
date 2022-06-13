@@ -2,7 +2,7 @@
 
 namespace Idez\Bankly\Http\Middleware;
 
-use App\Exceptions\BanklySignatureMismatchException;
+use Idez\Bankly\Exceptions\BanklySignatureMismatchException;
 use Closure;
 use Illuminate\Http\Request;
 

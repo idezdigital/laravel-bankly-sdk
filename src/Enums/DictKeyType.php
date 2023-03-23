@@ -2,13 +2,8 @@
 
 namespace Idez\Bankly\Enums;
 
-use Idez\Bankly\Contracts\NovaSelectEnumInterface;
-use Idez\Bankly\Traits\NovaSelectEnum;
-
-enum DictKeyType: string implements NovaSelectEnumInterface
+enum DictKeyType: string
 {
-    use NovaSelectEnum;
-
     case CPF = 'CPF';
     case CNPJ = 'CNPJ';
     case Email = 'EMAIL';

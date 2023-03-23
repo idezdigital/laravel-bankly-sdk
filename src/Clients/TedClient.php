@@ -2,14 +2,8 @@
 
 namespace Idez\Bankly\Clients;
 
-use Carbon\Carbon;
 use Idez\Bankly\Data\Account;
-use Idez\Bankly\Data\AccountInfo;
-use Idez\Bankly\Data\Event;
-use Idez\Bankly\Data\Pix\DictKey;
 use Idez\Bankly\Data\Ted;
-use Idez\Bankly\Enums\AccountType;
-use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Client\Response;
 
 class TedClient extends BaseClient
@@ -35,7 +29,7 @@ class TedClient extends BaseClient
             'nextPage' => $cursor,
         ]);
 
-        return $teds->collect()->get('data')->map(fn($ted) => Ted::make($ted));
+        return $teds->collect()->get('data')->map(fn ($ted) => Ted::make($ted));
     }
 
     public function getTed(string $id)

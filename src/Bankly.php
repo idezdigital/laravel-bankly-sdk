@@ -7,6 +7,7 @@ use Idez\Bankly\Clients\AccountClient;
 use Idez\Bankly\Clients\BankSlipClient;
 use Idez\Bankly\Clients\PixClient;
 use Idez\Bankly\Clients\TransferClient;
+use Idez\Bankly\Clients\TedClient;
 use Idez\Bankly\Data\Token;
 use Idez\Bankly\Rules\FileExistsRule;
 use Idez\Bankly\Traits\HasScopes;
@@ -85,6 +86,11 @@ class Bankly
     public function transfer(): TransferClient
     {
         return new TransferClient($this->middlewares);
+    }
+
+    public function ted(): TedClient
+    {
+        return new TedClient($this->middlewares);
     }
 
     public function getEnvUrl(): string
